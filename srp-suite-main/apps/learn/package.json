@@ -1,0 +1,38 @@
+{
+  "name": "video-generator",
+  "version": "1.0.0",
+  "description": "SRP Learn - Generador de videos con Remotion",
+  "scripts": {
+    "studio": "remotion studio",
+    "render": "remotion render ProcedureVideo --output output/video.mp4",
+    "render:quick": "remotion render QuickProcedure --output output/quick.mp4",
+    "generate": "npx ts-node scripts/generate-video.ts",
+    "generate:no-audio": "npx ts-node scripts/generate-video.ts --no-audio",
+    "voices": "npx ts-node scripts/generate-video.ts --list-voices",
+    "upgrade": "remotion upgrade",
+    "build": "remotion bundle"
+  },
+  "dependencies": {
+    "@remotion/bundler": "4.0.290",
+    "@remotion/captions": "^4.0.420",
+    "@remotion/cli": "4.0.290",
+    "@remotion/lottie": "^4.0.290",
+    "@remotion/motion-blur": "^4.0.420",
+    "@remotion/noise": "^4.0.420",
+    "@remotion/paths": "^4.0.420",
+    "@remotion/renderer": "4.0.290",
+    "@remotion/transitions": "^4.0.420",
+    "edge-tts-universal": "^1.0.0",
+    "lottie-web": "^5.13.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "remotion": "4.0.290",
+    "remotion-animated": "^2.2.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.18",
+    "@types/react-dom": "^18.3.5",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.3"
+  }
+}

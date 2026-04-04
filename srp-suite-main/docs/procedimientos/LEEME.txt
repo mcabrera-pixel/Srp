@@ -1,0 +1,16 @@
+PROCEDIMIENTOS PREVIOS
+======================
+
+Pon aquí los procedimientos ya realizados anteriormente.
+La IA los usará como referencia y base para generar nuevos documentos.
+
+Formatos aceptados: .pdf  .docx  .txt
+
+Ejemplos:
+  - Procedimiento-Cambio-Neumatico-CAEX.pdf
+  - POE-Trabajo-en-Altura-v2.docx
+  - Procedimiento-Soldadura-Estructural.pdf
+
+Cómo ingestar:
+  1. Asegúrate que el servidor esté corriendo:  npm run dev
+  2. Ejecuta:  node scripts/ingest-folder.mjs docs/procedimientos

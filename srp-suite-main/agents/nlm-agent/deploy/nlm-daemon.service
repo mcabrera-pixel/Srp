@@ -1,0 +1,26 @@
+[Unit]
+Description=NLM Daemon - Autonomous NotebookLM content generator
+After=network.target
+
+[Service]
+Type=simple
+User=nlm
+Group=nlm
+WorkingDirectory=/opt/nlm-agent
+ExecStart=/opt/nlm-agent/daemon.sh
+Restart=always
+RestartSec=15
+Environment=MODE=api
+Environment=POLL_INTERVAL=30
+Environment=API_BASE_URL=https://api.srp.cl
+
+# Logging
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=nlm-daemon
+
+# Security
+NoNewPrivileges=true
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,34 @@
+# Archivos grandes y temporales
+ffmpeg-master-latest-win64-gpl/
+ffmpeg.zip
+media/
+output/
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+
+# Archivos de sistema
+.DS_Store
+Thumbs.db
+*.log
+
+# Entornos virtuales
+venv/
+.venv/
+env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Archivos temporales de video
+*.mp4
+*.mp3
+*.wav
+!examples/*.mp4
+
+# Lista de concatenacion
+video_list.txt

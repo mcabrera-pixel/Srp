@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SPR Complete — Diagrama de Operación</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #08090d;
+            --bg-secondary: #0d1017;
+            --bg-card: #12161f;
+            --bg-problem: #1a0a0a;
+            --border: #1e2536;
+            --border-problem: #3d1515;
+            --text-primary: #e2e6ef;
+            --text-secondary: #7a849a;
+            --text-muted: #4a5268;
+            --accent-blue: #3b82f6;
+            --accent-green: #10b981;
+            --accent-red: #dc2626;
+            --accent-amber: #d97706;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .bg-grid {
+            position: fixed;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(59, 130, 246, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(59, 130, 246, 0.02) 1px, transparent 1px);
+            background-size: 60px 60px;
+            pointer-events: none;
+        }
+
+        /* === HEADER === */
+        .header {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            padding: 56px 20px 24px;
+        }
+
+        .header__tag {
+            display: inline-block;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--accent-blue);
+            margin-bottom: 16px;
+        }
+
+        .header h1 {
+            font-size: clamp(26px, 4.5vw, 44px);
+            font-weight: 900;
+            color: var(--text-primary);
+            margin-bottom: 10px;
+            letter-spacing: -0.5px;
+        }
+
+        .header__sub {
+            font-size: 15px;
+            color: var(--text-secondary);
+            max-width: 640px;
+            margin: 0 auto 28px;
+            line-height: 1.6;
+        }
+
+        /* Dual mode indicator */
+        .modes {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .mode {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 18px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            border: 1px solid;
+        }
+
+        .mode--gen {
+            background: rgba(59, 130, 246, 0.06);
+            border-color: rgba(59, 130, 246, 0.2);
+            color: var(--accent-blue);
+        }
+
+        .mode--learn {
+            background: rgba(16, 185, 129, 0.06);
+            border-color: rgba(16, 185, 129, 0.2);
+            color: var(--accent-green);
+        }
+
+        .mode__dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        .mode--gen .mode__dot {
+            background: var(--accent-blue);
+        }
+
+        .mode--learn .mode__dot {
+            background: var(--accent-green);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.4;
+            }
+        }
+
+        /* === FLOW === */
+        .flow {
+            position: relative;
+            z-index: 10;
+            max-width: 1140px;
+            margin: 0 auto;
+            padding: 20px 20px 80px;
+        }
+
+        /* === PHASE ROW (problem | solution) === */
+        .phase {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 0;
+            margin-bottom: 2px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeUp 0.5s ease forwards;
+        }
+
+        .phase:nth-child(1) {
+            animation-delay: 0.05s;
+        }
+
+        .phase:nth-child(2) {
+            animation-delay: 0.10s;
+        }
+
+        .phase:nth-child(3) {
+            animation-delay: 0.15s;
+        }
+
+        .phase:nth-child(4) {
+            animation-delay: 0.20s;
+        }
+
+        .phase:nth-child(5) {
+            animation-delay: 0.25s;
+        }
+
+        .phase:nth-child(6) {
+            animation-delay: 0.30s;
+        }
+
+        .phase:nth-child(7) {
+            animation-delay: 0.35s;
+        }
+
+        .phase:nth-child(8) {
+            animation-delay: 0.40s;
+        }
+
+        @keyframes fadeUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 800px) {
+            .phase {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* --- Problem column --- */
+        .problem {
+            background: var(--bg-problem);
+            border: 1px solid var(--border-problem);
+            border-right: none;
+            border-radius: 14px 0 0 14px;
+            padding: 24px 22px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        @media (max-width: 800px) {
+            .problem {
+                border-radius: 14px 14px 0 0;
+                border-right: 1px solid var(--border-problem);
+                border-bottom: none;
+            }
+        }
+
+        .problem__label {
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--accent-red);
+            margin-bottom: 8px;
+        }
+
+        .problem__text {
+            font-size: 14px;
+            font-weight: 600;
+            color: #e8a0a0;
+            line-height: 1.5;
+            margin-bottom: 8px;
+        }
+
+        .problem__cost {
+            font-size: 12px;
+            color: #9a6060;
+            line-height: 1.5;
+        }
+
+        /* --- Solution column --- */
+        .solution {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-left: none;
+            border-radius: 0 14px 14px 0;
+            padding: 24px 28px;
+        }
+
+        @media (max-width: 800px) {
+            .solution {
+                border-radius: 0 0 14px 14px;
+                border-left: 1px solid var(--border);
+                border-top: none;
+            }
+        }
+
+        .solution__header {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 16px;
+        }
+
+        .solution__num {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            font-weight: 800;
+            color: #fff;
+            flex-shrink: 0;
+            background: var(--accent-blue);
+        }
+
+        .solution__title {
+            font-size: 17px;
+            font-weight: 700;
+            letter-spacing: -0.2px;
+        }
+
+        .solution__subtitle {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-top: 2px;
+        }
+
+        /* Steps grid */
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+        }
+
+        .step {
+            background: rgba(8, 9, 13, 0.5);
+            border: 1px solid rgba(30, 37, 54, 0.7);
+            border-radius: 10px;
+            padding: 14px 16px;
+        }
+
+        .step__name {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+
+        .step__desc {
+            font-size: 11px;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        /* Learn tag */
+        .learn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--accent-green);
+            background: rgba(16, 185, 129, 0.06);
+            border: 1px solid rgba(16, 185, 129, 0.15);
+            border-radius: 6px;
+            padding: 4px 10px;
+            margin-top: 12px;
+        }
+
+        .learn__dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--accent-green);
+        }
+
+        /* Connector */
+        .connector {
+            display: flex;
+            justify-content: center;
+            padding: 4px 0;
+            margin-left: 300px;
+        }
+
+        @media (max-width: 800px) {
+            .connector {
+                margin-left: 0;
+            }
+        }
+
+        .connector__line {
+            width: 2px;
+            height: 28px;
+            background: linear-gradient(to bottom, rgba(59, 130, 246, 0.3), transparent);
+        }
+
+        /* === COLUMN HEADERS === */
+        .col-headers {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 0;
+            margin-bottom: 12px;
+            opacity: 0;
+            animation: fadeUp 0.4s ease forwards;
+        }
+
+        @media (max-width: 800px) {
+            .col-headers {
+                display: none;
+            }
+        }
+
+        .col-header {
+            padding: 10px 22px;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .col-header--problem {
+            color: var(--accent-red);
+            border-bottom: 2px solid rgba(220, 38, 38, 0.3);
+        }
+
+        .col-header--solution {
+            color: var(--accent-blue);
+            border-bottom: 2px solid rgba(59, 130, 246, 0.3);
+        }
+
+        /* === SUMMARY === */
+        .summary {
+            position: relative;
+            z-index: 10;
+            max-width: 1140px;
+            margin: 40px auto 60px;
+            padding: 0 20px;
+        }
+
+        .summary__card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 36px 32px;
+        }
+
+        .summary__title {
+            font-size: 20px;
+            font-weight: 800;
+            margin-bottom: 6px;
+            letter-spacing: -0.3px;
+        }
+
+        .summary__sub {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-bottom: 28px;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 12px;
+        }
+
+        .stat {
+            padding: 16px;
+            background: rgba(8, 9, 13, 0.6);
+            border: 1px solid rgba(30, 37, 54, 0.5);
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .stat__val {
+            font-size: 26px;
+            font-weight: 900;
+            margin-bottom: 4px;
+        }
+
+        .stat__val--blue {
+            color: var(--accent-blue);
+        }
+
+        .stat__val--green {
+            color: var(--accent-green);
+        }
+
+        .stat__val--amber {
+            color: var(--accent-amber);
+        }
+
+        .stat__val--red {
+            color: var(--accent-red);
+        }
+
+        .stat__lbl {
+            font-size: 11px;
+            color: var(--text-secondary);
+        }
+
+        /* Comparison row */
+        .comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 24px;
+        }
+
+        @media (max-width: 600px) {
+            .comparison {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .comp {
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid;
+        }
+
+        .comp--before {
+            background: rgba(220, 38, 38, 0.04);
+            border-color: rgba(220, 38, 38, 0.15);
+        }
+
+        .comp--after {
+            background: rgba(59, 130, 246, 0.04);
+            border-color: rgba(59, 130, 246, 0.15);
+        }
+
+        .comp__title {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+
+        .comp--before .comp__title {
+            color: var(--accent-red);
+        }
+
+        .comp--after .comp__title {
+            color: var(--accent-blue);
+        }
+
+        .comp__list {
+            list-style: none;
+        }
+
+        .comp__list li {
+            font-size: 12px;
+            color: var(--text-secondary);
+            padding: 5px 0;
+            border-bottom: 1px solid rgba(30, 37, 54, 0.3);
+            line-height: 1.5;
+        }
+
+        .comp__list li:last-child {
+            border: none;
+        }
+
+        .footer {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            padding: 20px;
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="bg-grid"></div>
+
+    <!-- HEADER -->
+    <header class="header">
+        <div class="header__tag">SPR Complete — Flujo de operacion</div>
+        <h1>Cada fase resuelve un problema real.</h1>
+        <p class="header__sub">El sistema opera en 6 fases secuenciales. Cada una ataca un cuello de botella especifico
+            que hoy le cuesta tiempo, dinero y riesgo a la operacion minera.</p>
+        <div class="modes">
+            <div class="mode mode--gen">
+                <span class="mode__dot"></span>
+                GENERA — ejecuta en cada solicitud
+            </div>
+            <div class="mode mode--learn">
+                <span class="mode__dot"></span>
+                APRENDE — mejora continua en background
+            </div>
+        </div>
+    </header>
+
+    <!-- COLUMN HEADERS -->
+    <div class="flow">
+        <div class="col-headers">
+            <div class="col-header col-header--problem">Problema que resuelve</div>
+            <div class="col-header col-header--solution">Como lo resuelve SPR</div>
+        </div>
+
+        <!-- FASE 1 -->
+        <div class="phase">
+            <div class="problem">
+                <div class="problem__label">Problema</div>
+                <div class="problem__text">La informacion llega fragmentada, en formatos distintos, sin estructura.
+                </div>
+                <div class="problem__cost">Un supervisor envia un audio de 2 minutos, una foto borrosa y un PDF de 80
+                    paginas. Nadie lo consolida. Se pierde contexto critico.</div>
+            </div>
+            <div class="solution">
+                <div class="solution__header">
+                    <div class="solution__num">1</div>
+                    <div>
+                        <div class="solution__title">Entrada Multimodal</div>
+                        <div class="solution__subtitle">WhatsApp como punto unico de entrada</div>
+                    </div>
+                </div>
+                <div class="steps">
+                    <div class="step">
+                        <div class="step__name">Audio → Texto</div>
+                        <div class="step__desc">Transcripcion con jerga minera: "tranque", "polines", "CAEX", "ECF".
+                            MiniMax M2.5.</div>
+                    </div>
+                    <div class="step">
+                        <div class="step__name">Imagen → Datos</div>
+                        <div class="step__desc">Identifica equipo, EPP, zona, riesgos visibles, señaletica. Vision
+                            multimodal.</div>
+                    </div>
+                    <div class="step">
+                        <div class="step__name">PDF / Link → Estructura</div>
+                        <div class="step__desc">Extrae texto, tablas, especificaciones de manuales y fichas tecnicas.
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step__name">Resultado unificado</div>
+                        <div class="step__desc">Un objeto JSON con todo el contexto consolidado: tarea, equipo, zona,
+                            confianza.</div>
+                    </div>
+                </div>
+                <div class="learn"><span class="learn__dot"></span>APRENDE: Registra que inputs son mas comunes por zona
+                    y area</div>
+            </div>
+        </div>
+
+        <div class="connector">
+            <div class="connector__line"></div>
+        </div>
+
+        <!-- FASE 2 -->
+        <div class="phase">
+            <div class="problem">
+                <div class="problem__label">Problema</div>
+                <div class="problem__text">La solicitud siempre llega incompleta. Faltan datos criticos para generar un
+                    documento conforme.</div>
+                <div class="problem__cost">El supervisor dice "necesito procedimiento para el compresor". No dice cual
+                    compresor, en que zona, para que tarea, con cuantas personas. Eso retrasa semanas.</div>
+            </div>
+            <div class="solution">
+                <div class="solution__header">
+                    <div class="solution__num">2</div>
+                    <div>
+                        <div class="solution__title">Enriquecimiento de Contexto</div>
+                        <div class="solution__subtitle">Tres rutas para completar la informacion al 100%</div>
+                    </div>
+                </div>
+                <div class="steps">
+                    <div class="step">
+                        <div class="step__name">Ruta A — Preguntar</div>
+                        <div class="step__desc">Datos que solo el usuario conoce: zona, personal, turno, equipo exacto.
+                            Se pregunta via WhatsApp.</div>
+                    </div>
+                    <div class="step">
+                        <div class="step__name">Ruta B — LLM infiere</div>
+                        <div class="step__desc">EPP estandar, normativa aplicable, riesgos tipicos. El modelo los conoce
+                            y los completa automaticamente.</div>
+                    </div>
+                    <div class="step">
+                        <div class="step__name">Ruta C — NotebookLM</div>
+                        <div class="step__desc">Investigacion profunda con fuentes cruzadas. Genera resumen, preguntas
+                            clave, riesgos. En paralelo a la Ruta A.</div>
+                    </div>
+                </div>
+                <div class="learn"><span class="learn__dot"></span>APRENDE: Si la misma tarea siempre requiere las
+                    mismas preguntas, las hace proactivamente</div>
+            </div>
+        </div>
+
+        <div class="connector">
+            <div class="connector__line"></div>
+        </div>
+
+        <!-- FASE 3 -->
+        <div class="phase">
+            <div class="problem">
+                <div class="problem__label">Problema</div>
+                <div class="problem__text">Escribir un procedimiento conforme toma 3-4 semanas. La calidad depende de
+                    quien lo escribe.</div>
+                <div class="problem__cost">Cada autor tiene su estilo. Unos citan DS 132, otros no. Unos incluyen
+                    bloqueo de energias, otros lo olvidan. No hay estandar. No hay consistencia.</div>
+            </div>
+            <div class="solution">
+                <div class="solution__header">
+                    <div class="solution__num" style="background: var(--accent-amber);">3</div>
+                    <div>
+                        <div class="solution__title">RAG + Generacion de Documentos</div>
+                        <div class="solution__subtitle">Busqueda semantica, generacion IA, validacion automatica,
+                            renderizado DOCX</div>
+                    </div>
+                </div>
+                <div class="steps">
+                    <div class="step">
+                        <div class="step__name">Paso 1: Busqueda RAG</div>
+                        <div class="step__desc">ChromaDB busca DS 132, ECFs, RF01-RF29, manuales, procedimientos previos
+                            aprobados. Top 10 resultados.</div>
+                    </div>
+                    <div class="step">
+                        <div class="step__name">Paso 2: Generacion LLM</div>
+                        <div class="step__desc">MiniMax M2.5 Fine-Tuned genera el documento completo. Fallback
+                            automatico a Claude Opus 4.6.</div>
+                    </div>
+                    <div class="step">
+                        <div class="step__name">Paso 3: Validacion auto</div>
+                        <div class="step__desc">Claude Opus verifica: citas DS 132, RF incluidos, EPP completo, bloqueo
+                            presente, estructura SIGO.</div>
+                    </div>
+                    <div class="step">
+                        <div class="step__name">Paso 4: Render DOCX</div>
+                        <div class="step__desc">docxtemplater genera Procedimiento + ART + Checklist. Formato normado,
+                            listo para firmas.</div>
+                    </div>
+                </div>
+                <div class="learn"><span class="learn__dot"></span>APRENDE: Cada correccion de un validador se convierte
+                    en dato de entrenamiento</div>
+            </div>
+        </div>
+
+        <div class="connector">
+            <div class="connector__line"></div>
+        </div>
+
+        <!-- FASE 4 -->
+        <div class="phase">
+            <div class="problem">
+                <div class="problem__label">Problema</div>
+                <div class="problem__text">Los trabajadores no leen los procedimientos. 80 paginas que nadie abre.</div>
+                <div class="problem__cost">El documento existe pero no se transfiere el conocimiento. Los operadores
+                    llegan al terreno sin saber los pasos ni los riesgos criticos. La capacitacion es inconsistente o no
+                    existe.</div>
+            </div>
+            <div class="solution">
+                <div class="solution__header">
+                    <div class="solution__num" style="background: #0891b2;">4</div>
+                    <div>
+                        <div class="solution__title">Generacion Audiovisual</div>
+                        <div class="solution__subtitle">NotebookLM MCP genera todo el material de capacitacion</div>
+                    </div>
+                </div>
+                <div class="steps">
+                    <div class="step">
+                        <div class="step__name">Podcast (8 min)</div>
+                        <div class="step__desc">Dos voces IA explican el procedimiento en formato conversacional. Para
+                            escuchar en la camioneta o antes del turno.</div>
+                    </div>
+                    <div class="step">
+                        <div class="step__name">Quiz + Flashcards</div>
+                        <div class="step__desc">10 preguntas de opcion multiple para certificacion. 20 tarjetas de
+                            estudio para repaso rapido.</div>
+                    </div>
+                    <div class="step">
+                        <div class="step__name">Resumen + Mind Map</div>
+                        <div class="step__desc">Briefing de 1 pagina para supervisores. Mapa visual de pasos, riesgos y
+                            controles interconectados.</div>
+                    </div>
+                </div>
+                <div class="learn"><span class="learn__dot"></span>APRENDE: Temas donde los quiz scores son bajos se
+                    refuerzan en proximos podcasts</div>
+            </div>
+        </div>
+
+        <div class="connector">
+            <div class="connector__line"></div>
+        </div>
+
+        <!-- FASE 5 -->
+        <div class="phase">
+            <div class="problem">
+                <div class="problem__label">Problema</div>
+                <div class="problem__text">La cadena de aprobacion es opaca. No hay trazabilidad de quien aprobo que, ni
+                    cuando.</div>
+                <div class="problem__cost">Documentos se "aprueban" por email sin revision real. No se clasifica el
+                    riesgo. No hay escalamiento formal. SERNAGEOMIN pregunta y no hay evidencia.</div>
+            </div>
+            <div class="solution">
+                <div class="solution__header">
+                    <div class="solution__num" style="background: var(--accent-red);">5</div>
+                    <div>
+                        <div class="solution__title">Entrega Formal + Validacion</div>
+                        <div class="solution__subtitle">Paquete completo por WhatsApp + cadena de aprobacion segun
+                            riesgo</div>
+                    </div>
+                </div>
+                <div class="steps">
+                    <div class="step">
+                        <div class="step__name">Paquete completo</div>
+                        <div class="step__desc">DOCX + ART + Checklist + Podcast + Quiz + Fuentes citadas +
+                            Clasificacion MR. Todo en un mensaje.</div>
+                    </div>
+                    <div class="step">
+                        <div class="step__name">MR Bajo (&lt;8)</div>
+                        <div class="step__desc">Supervisor de turno aprueba directamente.</div>
+                    </div>
+                    <div class="step">
+                        <div class="step__name">MR Medio (8-31)</div>
+                        <div class="step__desc">Supervisor + Ingeniero de Prevencion de Riesgos.</div>
+                    </div>
+                    <div class="step">
+                        <div class="step__name">MR Alto (32-64)</div>
+                        <div class="step__desc">Supervisor + Ing. Prev. + Gerencia General Division.</div>
+                    </div>
+                </div>
+                <div class="learn"><span class="learn__dot"></span>APRENDE: Cada aprobacion/rechazo alimenta metricas de
+                    calidad del modelo</div>
+            </div>
+        </div>
+
+        <div class="connector">
+            <div class="connector__line"></div>
+        </div>
+
+        <!-- FASE 6 -->
+        <div class="phase">
+            <div class="problem">
+                <div class="problem__label">Problema</div>
+                <div class="problem__text">No hay registro de quien esta capacitado en que. Cuando SERNAGEOMIN
+                    fiscaliza, no hay evidencia.</div>
+                <div class="problem__cost">Sin registros de certificacion, sin versionado de documentos, sin monitoreo
+                    de cambios normativos. Multas que han aumentado +30% en 3 años.</div>
+            </div>
+            <div class="solution">
+                <div class="solution__header">
+                    <div class="solution__num" style="background: var(--accent-green);">6</div>
+                    <div>
+                        <div class="solution__title">Capacitacion + Auditoria</div>
+                        <div class="solution__subtitle">Certificacion automatica y trazabilidad total para SERNAGEOMIN
+                        </div>
+                    </div>
+                </div>
+                <div class="steps">
+                    <div class="step">
+                        <div class="step__name">Certificacion</div>
+                        <div class="step__desc">Trabajadores escuchan podcast, revisan docs, responden quiz. 80% o mas =
+                            certificado emitido, valido 1 año.</div>
+                    </div>
+                    <div class="step">
+                        <div class="step__name">Auditoria continua</div>
+                        <div class="step__desc">Monitoreo cada 6 meses: detecta cambios en DS 132, ECFs. Alerta +
+                            re-generacion automatica.</div>
+                    </div>
+                    <div class="step">
+                        <div class="step__name">Trazabilidad total</div>
+                        <div class="step__desc">Quien creo, valido, se capacito. Fuentes citadas. Scores de quiz.
+                            Historial inmutable versionado.</div>
+                    </div>
+                </div>
+                <div class="learn"><span class="learn__dot"></span>APRENDE: Cambios normativos disparan re-entrenamiento
+                    urgente del modelo</div>
+            </div>
+        </div>
+
+        <div class="connector">
+            <div class="connector__line"></div>
+        </div>
+
+        <!-- CICLO APRENDIZAJE -->
+        <div class="phase">
+            <div class="problem">
+                <div class="problem__label">Problema</div>
+                <div class="problem__text">Los sistemas estaticos se degradan. La normativa cambia, el lenguaje
+                    evoluciona, los errores se repiten.</div>
+                <div class="problem__cost">Un modelo que no aprende comete los mismos errores una y otra vez. La calidad
+                    se estanca. La confianza del usuario se pierde.</div>
+            </div>
+            <div class="solution" style="border-color: rgba(16,185,129,0.2);">
+                <div class="solution__header">
+                    <div class="solution__num" style="background: var(--accent-green); font-size: 14px;">&#8734;</div>
+                    <div>
+                        <div class="solution__title">Ciclo de Aprendizaje Continuo</div>
+                        <div class="solution__subtitle">Fine-Tuning LoRA automatico — corre en background sin afectar
+                            produccion</div>
+                    </div>
+                </div>
+                <div class="steps">
+                    <div class="step">
+                        <div class="step__name">Recoleccion</div>
+                        <div class="step__desc">Docs aprobados (gold standard), correcciones de expertos, patrones de
+                            preguntas, areas de quiz score bajo.</div>
+                    </div>
+                    <div class="step">
+                        <div class="step__name">Trigger</div>
+                        <div class="step__desc">Cada 50 docs aprobados / Correccion senior / Cambio normativo / Cron
+                            semanal / Calidad bajo umbral.</div>
+                    </div>
+                    <div class="step">
+                        <div class="step__name">Pipeline LoRA</div>
+                        <div class="step__desc">Unsloth + PEFT + TRL. QLoRA 4-bit. 3-5 epochs, 2-4h GPU. Evalua ROUGE-L,
+                            compliance, estructura.</div>
+                    </div>
+                    <div class="step">
+                        <div class="step__name">Deploy</div>
+                        <div class="step__desc">Metricas mejoran = hot-swap en produccion. No mejoran = rollback
+                            automatico. Cero downtime.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SUMMARY -->
+    <section class="summary">
+        <div class="summary__card">
+            <div class="summary__title">El resultado neto</div>
+            <div class="summary__sub">De la solicitud por WhatsApp a la certificacion de trabajadores — en minutos, no
+                semanas.</div>
+
+            <div class="stats">
+                <div class="stat">
+                    <div class="stat__val stat__val--blue">6</div>
+                    <div class="stat__lbl">Fases del flujo</div>
+                </div>
+                <div class="stat">
+                    <div class="stat__val stat__val--amber">15</div>
+                    <div class="stat__lbl">Skills especializados</div>
+                </div>
+                <div class="stat">
+                    <div class="stat__val stat__val--green">&lt;1 dia</div>
+                    <div class="stat__lbl">Tiempo total</div>
+                </div>
+                <div class="stat">
+                    <div class="stat__val stat__val--red">95%</div>
+                    <div class="stat__lbl">Reduccion de tiempo</div>
+                </div>
+            </div>
+
+            <div class="comparison">
+                <div class="comp comp--before">
+                    <div class="comp__title">Sin SPR (hoy)</div>
+                    <ul class="comp__list">
+                        <li>3-4 semanas por procedimiento</li>
+                        <li>Calidad depende del autor</li>
+                        <li>Capacitacion inconsistente o nula</li>
+                        <li>Cero trazabilidad para fiscalizacion</li>
+                        <li>Normativa desactualizada sin aviso</li>
+                        <li>El sistema no mejora con el uso</li>
+                    </ul>
+                </div>
+                <div class="comp comp--after">
+                    <div class="comp__title">Con SPR Complete</div>
+                    <ul class="comp__list">
+                        <li>15 minutos por procedimiento</li>
+                        <li>100% validado contra normativa</li>
+                        <li>Podcast + Quiz + Certificacion automatica</li>
+                        <li>Trazabilidad total para SERNAGEOMIN</li>
+                        <li>Monitoreo automatico de cambios</li>
+                        <li>Mejora continua con cada uso (LoRA)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        SPR Complete — Sistema de Gestion Documental Inteligente para Mineria &bull; 2026
+    </footer>
+</body>
+
+</html>

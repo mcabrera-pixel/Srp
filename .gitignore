@@ -1,3 +1,48 @@
+# Python
 __pycache__/
 *.pyc
 .pytest_cache/
+.venv/
+
+# Secrets
+.env
+.env.local
+.env.production
+
+# Dependencies
+node_modules/
+
+# Build
+dist/
+.next/
+out/
+.turbo/
+
+# Database
+*.db
+*.db-journal
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE
+.vscode/
+.idea/
+
+# Claude Code
+.claude/
+
+# Logs
+*.log
+npm-debug.log*
+
+# Data generada
+data/mining-rag.db
+data/vector-index.json
+data/storage/generated/
+data/storage/documents/
+
+# Package locks en subdirectorios (mantener solo root si aplica)
+srp-suite-main/package-lock.json

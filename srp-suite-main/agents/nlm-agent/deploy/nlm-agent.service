@@ -1,0 +1,26 @@
+[Unit]
+Description=NLM Agent - Autonomous NotebookLM content generator
+After=network.target
+
+[Service]
+Type=simple
+User=nlm
+Group=nlm
+WorkingDirectory=/opt/nlm-agent
+ExecStart=/opt/nlm-agent/.venv/bin/python -m nlm_agent.main
+Restart=always
+RestartSec=10
+Environment=PYTHONUNBUFFERED=1
+
+# Logging
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=nlm-agent
+
+# Security hardening
+NoNewPrivileges=true
+ProtectSystem=strict
+ReadWritePaths=/opt/nlm-agent /home/nlm/.notebooklm-mcp
+
+[Install]
+WantedBy=multi-user.target

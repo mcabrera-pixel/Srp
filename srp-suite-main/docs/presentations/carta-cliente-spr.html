@@ -1,0 +1,1400 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SPR Complete — Propuesta para CODELCO</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050608;
+            --bg-card: #0c0f16;
+            --bg-accent: #111520;
+            --border: #1a1f2e;
+            --copper: #c8813a;
+            --copper-dim: rgba(200, 129, 58, 0.12);
+            --copper-border: rgba(200, 129, 58, 0.25);
+            --red: #dc2626;
+            --red-dim: rgba(220, 38, 38, 0.06);
+            --red-border: rgba(220, 38, 38, 0.18);
+            --green: #10b981;
+            --green-dim: rgba(16, 185, 129, 0.06);
+            --green-border: rgba(16, 185, 129, 0.18);
+            --text: #e2e6ef;
+            --text-mid: #8b93a8;
+            --text-dim: #4a5268;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .grid-bg {
+            position: fixed;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(200, 129, 58, 0.015) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(200, 129, 58, 0.015) 1px, transparent 1px);
+            background-size: 80px 80px;
+            pointer-events: none;
+        }
+
+        /* =========== HERO =========== */
+        .hero {
+            position: relative;
+            z-index: 10;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 80px 24px 40px;
+            text-align: center;
+        }
+
+        .hero__tag {
+            display: inline-block;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            color: var(--copper);
+            margin-bottom: 20px;
+        }
+
+        .hero h1 {
+            font-size: clamp(28px, 5vw, 52px);
+            font-weight: 900;
+            line-height: 1.1;
+            letter-spacing: -1px;
+            margin-bottom: 16px;
+        }
+
+        .hero h1 span {
+            color: var(--copper);
+        }
+
+        .hero__sub {
+            font-size: 17px;
+            color: var(--text-mid);
+            max-width: 680px;
+            margin: 0 auto;
+            line-height: 1.7;
+        }
+
+        /* =========== SECTION WRAPPER =========== */
+        .section {
+            position: relative;
+            z-index: 10;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        .section+.section {
+            margin-top: 56px;
+        }
+
+        .section__label {
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .section__label--red {
+            color: var(--red);
+        }
+
+        .section__label--copper {
+            color: var(--copper);
+        }
+
+        .section__label--green {
+            color: var(--green);
+        }
+
+        /* =========== PAIN SECTION =========== */
+        .pain-header {
+            font-size: clamp(22px, 3.5vw, 36px);
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 12px;
+            letter-spacing: -0.5px;
+        }
+
+        .pain-sub {
+            font-size: 15px;
+            color: var(--text-mid);
+            line-height: 1.7;
+            margin-bottom: 28px;
+            max-width: 700px;
+        }
+
+        /* Pain cards */
+        .pain-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 12px;
+        }
+
+        .pain-card {
+            background: var(--red-dim);
+            border: 1px solid var(--red-border);
+            border-radius: 14px;
+            padding: 24px;
+        }
+
+        .pain-card__title {
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: #f0a0a0;
+        }
+
+        .pain-card__text {
+            font-size: 13px;
+            color: #b07070;
+            line-height: 1.6;
+        }
+
+        .pain-card__stat {
+            font-size: 32px;
+            font-weight: 900;
+            color: var(--red);
+            margin-bottom: 6px;
+        }
+
+        /* =========== COST TICKER =========== */
+        .cost-bar {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 28px 32px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 20px;
+            margin-top: 32px;
+        }
+
+        .cost-item {
+            text-align: center;
+        }
+
+        .cost-item__val {
+            font-size: 28px;
+            font-weight: 900;
+            color: var(--red);
+            margin-bottom: 4px;
+        }
+
+        .cost-item__lbl {
+            font-size: 11px;
+            color: var(--text-mid);
+            line-height: 1.4;
+        }
+
+        /* =========== SOLUTION SECTION =========== */
+        .solution-header {
+            font-size: clamp(22px, 3.5vw, 36px);
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 12px;
+            letter-spacing: -0.5px;
+        }
+
+        .solution-sub {
+            font-size: 15px;
+            color: var(--text-mid);
+            line-height: 1.7;
+            margin-bottom: 28px;
+            max-width: 700px;
+        }
+
+        /* before / after */
+        .transform {
+            display: grid;
+            grid-template-columns: 1fr 40px 1fr;
+            gap: 0;
+            align-items: stretch;
+            margin-bottom: 36px;
+        }
+
+        @media (max-width: 700px) {
+            .transform {
+                grid-template-columns: 1fr;
+                gap: 4px;
+            }
+
+            .transform__arrow {
+                display: none;
+            }
+        }
+
+        .transform__before {
+            background: var(--red-dim);
+            border: 1px solid var(--red-border);
+            border-radius: 14px 0 0 14px;
+            padding: 28px 24px;
+        }
+
+        .transform__after {
+            background: var(--green-dim);
+            border: 1px solid var(--green-border);
+            border-radius: 0 14px 14px 0;
+            padding: 28px 24px;
+        }
+
+        @media (max-width: 700px) {
+            .transform__before {
+                border-radius: 14px 14px 0 0;
+            }
+
+            .transform__after {
+                border-radius: 0 0 14px 14px;
+            }
+        }
+
+        .transform__arrow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--bg-card);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            font-size: 20px;
+            color: var(--copper);
+            font-weight: 800;
+        }
+
+        .transform__label {
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            margin-bottom: 16px;
+        }
+
+        .transform__before .transform__label {
+            color: var(--red);
+        }
+
+        .transform__after .transform__label {
+            color: var(--green);
+        }
+
+        .t-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+            font-size: 13px;
+        }
+
+        .t-row:last-child {
+            border: none;
+        }
+
+        .t-row__label {
+            color: var(--text-mid);
+        }
+
+        .t-row__val {
+            font-weight: 700;
+        }
+
+        .transform__before .t-row__val {
+            color: #e8a0a0;
+        }
+
+        .transform__after .t-row__val {
+            color: #80ddb8;
+        }
+
+        /* =========== WHAT YOU GET =========== */
+        .gain-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 12px;
+        }
+
+        .gain-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 24px;
+        }
+
+        .gain-card__title {
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .gain-card__text {
+            font-size: 13px;
+            color: var(--text-mid);
+            line-height: 1.6;
+        }
+
+        .gain-card--highlight {
+            background: var(--copper-dim);
+            border-color: var(--copper-border);
+        }
+
+        .gain-card--highlight .gain-card__title {
+            color: var(--copper);
+        }
+
+        /* =========== HOW IT WORKS (simple, no tech) =========== */
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+            margin-top: 4px;
+        }
+
+        .hw-step {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 22px;
+            position: relative;
+        }
+
+        .hw-step__num {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            background: var(--copper);
+            color: #fff;
+            font-size: 14px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 12px;
+        }
+
+        .hw-step__title {
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .hw-step__desc {
+            font-size: 12px;
+            color: var(--text-mid);
+            line-height: 1.6;
+        }
+
+        /* =========== PROOF =========== */
+        .proof-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 36px 32px;
+        }
+
+        .proof-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .proof-stat {
+            text-align: center;
+            padding: 16px 8px;
+            background: rgba(8, 9, 13, 0.5);
+            border: 1px solid rgba(30, 37, 54, 0.5);
+            border-radius: 12px;
+        }
+
+        .proof-stat__val {
+            font-size: 28px;
+            font-weight: 900;
+            color: var(--copper);
+            margin-bottom: 2px;
+        }
+
+        .proof-stat__lbl {
+            font-size: 11px;
+            color: var(--text-mid);
+        }
+
+        /* =========== OFFER =========== */
+        .offer {
+            background: var(--copper-dim);
+            border: 2px solid var(--copper-border);
+            border-radius: 18px;
+            padding: 44px 36px;
+            text-align: center;
+        }
+
+        .offer__title {
+            font-size: clamp(20px, 3vw, 32px);
+            font-weight: 900;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+
+        .offer__sub {
+            font-size: 15px;
+            color: var(--text-mid);
+            margin-bottom: 32px;
+            line-height: 1.6;
+        }
+
+        .offer-items {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 12px;
+            text-align: left;
+            margin-bottom: 32px;
+        }
+
+        .offer-item {
+            background: rgba(200, 129, 58, 0.06);
+            border: 1px solid rgba(200, 129, 58, 0.15);
+            border-radius: 12px;
+            padding: 18px 20px;
+        }
+
+        .offer-item__title {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--copper);
+            margin-bottom: 4px;
+        }
+
+        .offer-item__text {
+            font-size: 12px;
+            color: var(--text-mid);
+            line-height: 1.5;
+        }
+
+        .offer__guarantee {
+            background: rgba(16, 185, 129, 0.08);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: 12px;
+            padding: 20px 24px;
+            margin-top: 24px;
+        }
+
+        .offer__guarantee-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--green);
+            margin-bottom: 4px;
+        }
+
+        .offer__guarantee-text {
+            font-size: 13px;
+            color: #80ddb8;
+            line-height: 1.6;
+        }
+
+        /* =========== URGENCY BAR =========== */
+        .urgency {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 28px 32px;
+            text-align: center;
+        }
+
+        .urgency__title {
+            font-size: 18px;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+
+        .urgency__text {
+            font-size: 14px;
+            color: var(--text-mid);
+            line-height: 1.6;
+            max-width: 650px;
+            margin: 0 auto;
+        }
+
+        .footer {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            padding: 40px 24px 24px;
+            font-size: 11px;
+            color: var(--text-dim);
+        }
+
+        /* Animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(16px);
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        /* Divider line */
+        .divider {
+            width: 60px;
+            height: 2px;
+            background: var(--copper);
+            margin: 56px auto;
+            opacity: 0.3;
+        }
+
+        /* =========== SECTION IMAGES =========== */
+        .section-img {
+            width: 100%;
+            border-radius: 16px;
+            object-fit: cover;
+            border: 1px solid var(--border);
+        }
+
+        .section-img--hero {
+            height: 320px;
+            margin-top: 24px;
+            mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0) 100%);
+            -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0) 100%);
+            border: none;
+        }
+
+        .section-img--wide {
+            height: 280px;
+            margin-bottom: 28px;
+        }
+
+        .section-img--medium {
+            height: 240px;
+            margin-bottom: 24px;
+        }
+
+        .img-caption {
+            font-size: 11px;
+            color: var(--text-dim);
+            text-align: center;
+            margin-top: 8px;
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+
+        /* =========== FLOW DIAGRAM =========== */
+        .flow {
+            position: relative;
+            padding: 8px 0;
+        }
+
+        .flow__line {
+            position: absolute;
+            left: 28px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, var(--copper), var(--green));
+            opacity: 0.3;
+        }
+
+        .flow__node {
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+            padding: 16px 0;
+            position: relative;
+        }
+
+        .flow__dot {
+            width: 16px;
+            height: 16px;
+            min-width: 16px;
+            border-radius: 50%;
+            background: var(--copper);
+            border: 3px solid var(--bg);
+            box-shadow: 0 0 0 2px var(--copper);
+            margin-top: 4px;
+            margin-left: 21px;
+            z-index: 2;
+        }
+
+        .flow__dot--green {
+            background: var(--green);
+            box-shadow: 0 0 0 2px var(--green);
+        }
+
+        .flow__dot--red {
+            background: var(--red);
+            box-shadow: 0 0 0 2px var(--red);
+        }
+
+        .flow__content {
+            flex: 1;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 18px 22px;
+        }
+
+        .flow__who {
+            display: inline-block;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            padding: 3px 10px;
+            border-radius: 6px;
+            margin-bottom: 8px;
+        }
+
+        .flow__who--supervisor {
+            background: rgba(200, 129, 58, 0.15);
+            color: var(--copper);
+        }
+
+        .flow__who--system {
+            background: rgba(99, 102, 241, 0.12);
+            color: #818cf8;
+        }
+
+        .flow__who--worker {
+            background: rgba(16, 185, 129, 0.12);
+            color: var(--green);
+        }
+
+        .flow__who--validator {
+            background: rgba(244, 114, 182, 0.12);
+            color: #f472b6;
+        }
+
+        .flow__title {
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .flow__desc {
+            font-size: 12px;
+            color: var(--text-mid);
+            line-height: 1.6;
+        }
+
+        .flow__channel {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-dim);
+            margin-top: 8px;
+            padding: 4px 10px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 6px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .flow__arrow-down {
+            text-align: center;
+            color: var(--copper);
+            font-size: 18px;
+            padding: 4px 0;
+            opacity: 0.4;
+            margin-left: 26px;
+        }
+
+        /* =========== ROLES DIAGRAM =========== */
+        .roles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+        }
+
+        .role-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 24px;
+            text-align: center;
+            position: relative;
+        }
+
+        .role-card__icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 14px;
+            font-size: 13px;
+            font-weight: 800;
+        }
+
+        .role-card__icon--supervisor {
+            background: rgba(200, 129, 58, 0.15);
+            border: 2px solid rgba(200, 129, 58, 0.3);
+            color: var(--copper);
+        }
+
+        .role-card__icon--system {
+            background: rgba(99, 102, 241, 0.12);
+            border: 2px solid rgba(99, 102, 241, 0.25);
+            color: #818cf8;
+        }
+
+        .role-card__icon--validator {
+            background: rgba(244, 114, 182, 0.12);
+            border: 2px solid rgba(244, 114, 182, 0.25);
+            color: #f472b6;
+        }
+
+        .role-card__icon--worker {
+            background: rgba(16, 185, 129, 0.12);
+            border: 2px solid rgba(16, 185, 129, 0.25);
+            color: var(--green);
+        }
+
+        .role-card__name {
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .role-card__does {
+            font-size: 12px;
+            color: var(--text-mid);
+            line-height: 1.5;
+        }
+
+        .role-card__actions {
+            margin-top: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .role-action {
+            font-size: 11px;
+            color: var(--text);
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 6px;
+            padding: 6px 10px;
+            text-align: left;
+        }
+
+        /* =========== ESCALATION =========== */
+        .escalation {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 28px;
+            margin-top: 20px;
+        }
+
+        .escalation__title {
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .esc-levels {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+
+        @media (max-width: 600px) {
+            .esc-levels {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .esc-level {
+            border-radius: 10px;
+            padding: 16px;
+            text-align: center;
+        }
+
+        .esc-level--low {
+            background: rgba(16, 185, 129, 0.06);
+            border: 1px solid rgba(16, 185, 129, 0.15);
+        }
+
+        .esc-level--mid {
+            background: rgba(245, 158, 11, 0.06);
+            border: 1px solid rgba(245, 158, 11, 0.15);
+        }
+
+        .esc-level--high {
+            background: rgba(220, 38, 38, 0.06);
+            border: 1px solid rgba(220, 38, 38, 0.15);
+        }
+
+        .esc-level__badge {
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            margin-bottom: 6px;
+        }
+
+        .esc-level--low .esc-level__badge {
+            color: var(--green);
+        }
+
+        .esc-level--mid .esc-level__badge {
+            color: #f59e0b;
+        }
+
+        .esc-level--high .esc-level__badge {
+            color: var(--red);
+        }
+
+        .esc-level__who {
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .esc-level__desc {
+            font-size: 11px;
+            color: var(--text-mid);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="grid-bg"></div>
+
+    <!-- ======= HERO ======= -->
+    <header class="hero fade-in">
+        <div class="hero__tag">SPR Complete — Propuesta para CODELCO</div>
+        <h1>Sus procedimientos toman semanas.<br><span>Deberian tomar minutos.</span></h1>
+        <p class="hero__sub">CODELCO debe migrar miles de procedimientos al nuevo formato. El metodo manual no escala.
+            Les proponemos una forma de hacerlo 95% mas rapido, con 100% de cumplimiento normativo, y capacitacion
+            automatica incluida.</p>
+        <img src="assets/mine-hero.png" alt="Operacion minera a cielo abierto" class="section-img section-img--hero">
+    </header>
+
+    <div class="divider"></div>
+
+    <!-- ======= EL PROBLEMA ======= -->
+    <div class="section fade-in">
+        <span class="section__label section__label--red">El problema</span>
+        <h2 class="pain-header">Hoy, crear un solo procedimiento les cuesta 3 a 4 semanas.</h2>
+        <p class="pain-sub">Y tienen que migrar miles al nuevo formato. Con el metodo actual, eso toma anos. Mientras
+            tanto, se opera con documentacion no conforme.</p>
+        <img src="assets/paperwork-problem.png" alt="Supervisor abrumado por documentacion"
+            class="section-img section-img--wide">
+        <div class="pain-grid">
+            <div class="pain-card">
+                <div class="pain-card__stat">3-4 sem</div>
+                <div class="pain-card__title">Por cada procedimiento</div>
+                <div class="pain-card__text">Borradores, correcciones, idas y vueltas entre supervisores y
+                    prevencionistas. Multiples revisiones de forma y fondo antes de llegar a una version aprobable.
+                </div>
+            </div>
+            <div class="pain-card">
+                <div class="pain-card__stat">50+</div>
+                <div class="pain-card__title">Estilos diferentes</div>
+                <div class="pain-card__text">Cada persona escribe distinto. Unos citan DS 132, otros no. Unos incluyen
+                    bloqueo de energias, otros lo omiten. No hay estandar real ni consistencia entre divisiones.</div>
+            </div>
+            <div class="pain-card">
+                <div class="pain-card__stat">0%</div>
+                <div class="pain-card__title">Trazabilidad verificable</div>
+                <div class="pain-card__text">Quien leyo el procedimiento? Quien lo entendio? Cuando fue la ultima
+                    actualizacion? Cuando SERNAGEOMIN pregunta, no hay respuesta verificable.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ======= EL COSTO ======= -->
+    <div class="section fade-in">
+        <span class="section__label section__label--red">Lo que les cuesta no resolverlo</span>
+        <div class="cost-bar">
+            <div class="cost-item">
+                <div class="cost-item__val">+30%</div>
+                <div class="cost-item__lbl">Aumento en multas SERNAGEOMIN en los ultimos 3 anos</div>
+            </div>
+            <div class="cost-item">
+                <div class="cost-item__val">Anos</div>
+                <div class="cost-item__lbl">Tiempo estimado para migrar todos los procedimientos manualmente</div>
+            </div>
+            <div class="cost-item">
+                <div class="cost-item__val">Nulo</div>
+                <div class="cost-item__lbl">Registro de capacitacion por procedimiento. Podria costar vidas</div>
+            </div>
+            <div class="cost-item">
+                <div class="cost-item__val">Perdido</div>
+                <div class="cost-item__lbl">Conocimiento de supervisores que se jubilan. Decadas de experiencia sin
+                    transferir</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- ======= LA SOLUCION ======= -->
+    <div class="section fade-in">
+        <span class="section__label section__label--copper">La solucion</span>
+        <h2 class="solution-header">Un sistema que genera, valida y capacita en el mismo dia.</h2>
+        <p class="solution-sub">SPR Complete es un sistema de IA entrenado especificamente con la normativa de CODELCO y
+            la legislacion minera chilena. No es un chatbot generico — es una herramienta que habla el idioma de la
+            operacion.</p>
+        <img src="assets/dashboard-solution.png" alt="Dashboard de gestion documental"
+            class="section-img section-img--wide">
+        <!-- Before / After -->
+        <div class="transform">
+            <div class="transform__before">
+                <div class="transform__label">Hoy (sin SPR)</div>
+                <div class="t-row"><span class="t-row__label">Tiempo p/ procedimiento</span><span class="t-row__val">3-4
+                        semanas</span></div>
+                <div class="t-row"><span class="t-row__label">Cumplimiento normativo</span><span
+                        class="t-row__val">Variable</span></div>
+                <div class="t-row"><span class="t-row__label">Consistencia</span><span class="t-row__val">Depende del
+                        autor</span></div>
+                <div class="t-row"><span class="t-row__label">Capacitacion</span><span class="t-row__val">Separada o
+                        nula</span></div>
+                <div class="t-row"><span class="t-row__label">Trazabilidad</span><span class="t-row__val">Archivos en
+                        carpetas</span></div>
+                <div class="t-row"><span class="t-row__label">Ante cambio normativo</span><span class="t-row__val">Meses
+                        re-revisando</span></div>
+            </div>
+            <div class="transform__arrow">&#8594;</div>
+            <div class="transform__after">
+                <div class="transform__label">Con SPR Complete</div>
+                <div class="t-row"><span class="t-row__label">Tiempo p/ procedimiento</span><span class="t-row__val">15
+                        minutos</span></div>
+                <div class="t-row"><span class="t-row__label">Cumplimiento normativo</span><span class="t-row__val">100%
+                        verificado</span></div>
+                <div class="t-row"><span class="t-row__label">Consistencia</span><span class="t-row__val">Estandar en
+                        cada doc</span></div>
+                <div class="t-row"><span class="t-row__label">Capacitacion</span><span class="t-row__val">Automatica
+                        incluida</span></div>
+                <div class="t-row"><span class="t-row__label">Trazabilidad</span><span class="t-row__val">Digital y
+                        auditable</span></div>
+                <div class="t-row"><span class="t-row__label">Ante cambio normativo</span><span
+                        class="t-row__val">Deteccion inmediata</span></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ======= QUE GANAN ======= -->
+    <div class="section fade-in">
+        <span class="section__label section__label--copper">Que gana CODELCO con esto</span>
+
+        <div class="gain-grid">
+            <div class="gain-card gain-card--highlight">
+                <div class="gain-card__title">Migrar en meses, no en anos</div>
+                <div class="gain-card__text">El sistema puede generar decenas de procedimientos por dia, cada uno
+                    validado automaticamente contra DS 132, ECFs, y estandares SIGO/RESSO. La migracion masiva pasa a
+                    ser viable.</div>
+            </div>
+            <div class="gain-card">
+                <div class="gain-card__title">Cero riesgo ante fiscalizacion</div>
+                <div class="gain-card__text">Cada procedimiento cita la normativa especifica con articulos y puntos
+                    exactos. Trazabilidad total: quien solicito, quien valido, quien se capacito, con que score.</div>
+            </div>
+            <div class="gain-card">
+                <div class="gain-card__title">Trabajadores que SI entienden</div>
+                <div class="gain-card__text">En vez de un PDF de 80 paginas que nadie lee, el trabajador recibe un audio
+                    de 8 minutos que escucha en la camioneta, y un quiz que certifica su comprension.</div>
+            </div>
+            <div class="gain-card">
+                <div class="gain-card__title">Consistencia entre divisiones</div>
+                <div class="gain-card__text">Chuquicamata, Radomiro Tomic, El Teniente — todos con el mismo estandar de
+                    calidad, la misma estructura, las mismas citas normativas.</div>
+            </div>
+            <div class="gain-card">
+                <div class="gain-card__title">Siempre actualizado</div>
+                <div class="gain-card__text">Si cambia el DS 132 o un ECF, el sistema lo detecta automaticamente,
+                    identifica todos los procedimientos afectados y sugiere re-generacion. Sin que nadie tenga que
+                    recordarlo.</div>
+            </div>
+            <div class="gain-card gain-card--highlight">
+                <div class="gain-card__title">Referente de la industria</div>
+                <div class="gain-card__text">Ninguna minera en Chile usa IA especializada para gestion documental de
+                    seguridad. CODELCO puede definir el estandar y posicionarse como lider en innovacion aplicada.</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- ======= COMO FUNCIONA (sin tecnicismos) ======= -->
+    <div class="section fade-in">
+        <span class="section__label section__label--copper">Como funciona en la practica</span>
+        <h2 class="solution-header">Del celular del supervisor al trabajador capacitado.</h2>
+        <p class="solution-sub">Tres pasos. Sin software complicado. Sin capacitacion previa. El supervisor ya sabe usar
+            WhatsApp.</p>
+        <img src="assets/whatsapp-worker.png" alt="Supervisor usando WhatsApp en terreno"
+            class="section-img section-img--medium">
+        <div class="steps">
+            <div class="hw-step">
+                <div class="hw-step__num">1</div>
+                <div class="hw-step__title">El supervisor pide</div>
+                <div class="hw-step__desc">Envia un audio, foto, o mensaje de texto por WhatsApp: "Necesito PTS para
+                    mantencion del compresor C-701 en POX." Eso es todo.</div>
+            </div>
+            <div class="hw-step">
+                <div class="hw-step__num">2</div>
+                <div class="hw-step__title">El sistema genera</div>
+                <div class="hw-step__desc">En 15 minutos el sistema produce el procedimiento completo, verifica que
+                    cumpla con toda la normativa vigente, y genera el material de capacitacion.</div>
+            </div>
+            <div class="hw-step">
+                <div class="hw-step__num">3</div>
+                <div class="hw-step__title">Recibe el paquete completo</div>
+                <div class="hw-step__desc">Documento formal, analisis de riesgo, checklist, audio de capacitacion, y
+                    quiz de certificacion. Todo listo para usar, en su celular.</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- ======= DIAGRAMA COMUNICACION ======= -->
+    <div class="section fade-in">
+        <span class="section__label section__label--copper">El flujo de comunicacion completo</span>
+        <h2 class="solution-header">Todo ocurre en WhatsApp. Sin portales, sin login, sin capacitacion.</h2>
+        <p class="solution-sub">El supervisor usa el canal que ya conoce. El sistema hace todo lo demas.</p>
+
+        <div class="flow">
+            <div class="flow__line"></div>
+
+            <!-- Node 1: Supervisor solicita -->
+            <div class="flow__node">
+                <div class="flow__dot"></div>
+                <div class="flow__content">
+                    <span class="flow__who flow__who--supervisor">Supervisor</span>
+                    <div class="flow__title">Envia solicitud por WhatsApp</div>
+                    <div class="flow__desc">Audio, foto del equipo, texto, PDF de un manual, o cualquier combinacion. El
+                        sistema procesa todo automaticamente.</div>
+                    <div class="flow__channel">Canal: WhatsApp</div>
+                </div>
+            </div>
+
+            <div class="flow__arrow-down">|</div>
+
+            <!-- Node 2: Sistema pregunta -->
+            <div class="flow__node">
+                <div class="flow__dot" style="background:#818cf8; box-shadow:0 0 0 2px #818cf8;"></div>
+                <div class="flow__content">
+                    <span class="flow__who flow__who--system">SPR Complete</span>
+                    <div class="flow__title">Hace preguntas inteligentes si falta informacion</div>
+                    <div class="flow__desc">"En que zona se realizara el trabajo?" "Cuantas personas participan?" Solo
+                        pregunta lo que necesita. Mientras espera, ya investiga en la base normativa.</div>
+                    <div class="flow__channel">Canal: WhatsApp (respuesta automatica)</div>
+                </div>
+            </div>
+
+            <div class="flow__arrow-down">|</div>
+
+            <!-- Node 3: Supervisor responde -->
+            <div class="flow__node">
+                <div class="flow__dot"></div>
+                <div class="flow__content">
+                    <span class="flow__who flow__who--supervisor">Supervisor</span>
+                    <div class="flow__title">Responde con la informacion solicitada</div>
+                    <div class="flow__desc">Responde por texto o audio. El sistema completa el contexto y comienza la
+                        generacion automatica del procedimiento.</div>
+                    <div class="flow__channel">Canal: WhatsApp</div>
+                </div>
+            </div>
+
+            <div class="flow__arrow-down">|</div>
+
+            <!-- Node 4: Sistema genera -->
+            <div class="flow__node">
+                <div class="flow__dot" style="background:#818cf8; box-shadow:0 0 0 2px #818cf8;"></div>
+                <div class="flow__content">
+                    <span class="flow__who flow__who--system">SPR Complete</span>
+                    <div class="flow__title">Genera el paquete completo en 15 minutos</div>
+                    <div class="flow__desc">Procedimiento DOCX, ART, checklist, podcast de capacitacion, quiz de
+                        certificacion. Todo validado contra la normativa vigente.</div>
+                    <div class="flow__channel">Canal: Procesamiento automatico</div>
+                </div>
+            </div>
+
+            <div class="flow__arrow-down">|</div>
+
+            <!-- Node 5: Entrega -->
+            <div class="flow__node">
+                <div class="flow__dot"></div>
+                <div class="flow__content">
+                    <span class="flow__who flow__who--supervisor">Supervisor</span>
+                    <div class="flow__title">Recibe el paquete completo en su celular</div>
+                    <div class="flow__desc">Todos los documentos listos para revisar, aprobar y distribuir. La cadena de
+                        validacion se activa automaticamente segun el nivel de riesgo.</div>
+                    <div class="flow__channel">Canal: WhatsApp + Dashboard</div>
+                </div>
+            </div>
+
+            <div class="flow__arrow-down">|</div>
+
+            <!-- Node 6: Validacion -->
+            <div class="flow__node">
+                <div class="flow__dot" style="background:#f472b6; box-shadow:0 0 0 2px #f472b6;"></div>
+                <div class="flow__content">
+                    <span class="flow__who flow__who--validator">Validador</span>
+                    <div class="flow__title">Revisa y aprueba el procedimiento</div>
+                    <div class="flow__desc">El nivel de revision depende del riesgo. Riesgo bajo: supervisor aprueba
+                        directo. Riesgo medio: ingeniero de prevencion. Riesgo alto: gerencia.</div>
+                    <div class="flow__channel">Canal: Dashboard + Notificacion</div>
+                </div>
+            </div>
+
+            <div class="flow__arrow-down">|</div>
+
+            <!-- Node 7: Trabajadores -->
+            <div class="flow__node">
+                <div class="flow__dot flow__dot--green"></div>
+                <div class="flow__content">
+                    <span class="flow__who flow__who--worker">Trabajadores</span>
+                    <div class="flow__title">Escuchan, aprenden y se certifican</div>
+                    <div class="flow__desc">Escuchan el podcast en la camioneta. Responden el quiz de 10 preguntas.
+                        Aprueban con 80%+. Quedan certificados con nombre, fecha y score. Evidencia auditable.</div>
+                    <div class="flow__channel">Canal: Celular (link directo)</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- ======= INTERACCION HUMANA ======= -->
+    <div class="section fade-in">
+        <span class="section__label section__label--copper">Quien hace que</span>
+        <h2 class="solution-header">Las personas deciden. El sistema ejecuta.</h2>
+        <p class="solution-sub">SPR Complete no reemplaza a nadie. Elimina el trabajo repetitivo para que cada rol se
+            enfoque en lo que importa.</p>
+
+        <div class="roles-grid">
+            <div class="role-card">
+                <div class="role-card__icon role-card__icon--supervisor">SUP</div>
+                <div class="role-card__name">Supervisor</div>
+                <div class="role-card__does">Solicita y aprueba</div>
+                <div class="role-card__actions">
+                    <div class="role-action">Pide el procedimiento por WhatsApp</div>
+                    <div class="role-action">Responde preguntas del sistema</div>
+                    <div class="role-action">Revisa el documento generado</div>
+                    <div class="role-action">Aprueba procedimientos de riesgo bajo</div>
+                </div>
+            </div>
+            <div class="role-card">
+                <div class="role-card__icon role-card__icon--system">SPR</div>
+                <div class="role-card__name">SPR Complete</div>
+                <div class="role-card__does">Genera y valida</div>
+                <div class="role-card__actions">
+                    <div class="role-action">Investiga normativa aplicable</div>
+                    <div class="role-action">Genera el procedimiento completo</div>
+                    <div class="role-action">Valida cumplimiento automaticamente</div>
+                    <div class="role-action">Genera podcast, quiz y material</div>
+                </div>
+            </div>
+            <div class="role-card">
+                <div class="role-card__icon role-card__icon--validator">ING</div>
+                <div class="role-card__name">Ingeniero Prevencion</div>
+                <div class="role-card__does">Valida riesgo medio-alto</div>
+                <div class="role-card__actions">
+                    <div class="role-action">Revisa procedimientos de riesgo medio</div>
+                    <div class="role-action">Verifica controles criticos (ECFs)</div>
+                    <div class="role-action">Solicita correcciones (el sistema aprende)</div>
+                    <div class="role-action">Escala a gerencia si es necesario</div>
+                </div>
+            </div>
+            <div class="role-card">
+                <div class="role-card__icon role-card__icon--worker">OPE</div>
+                <div class="role-card__name">Trabajador</div>
+                <div class="role-card__does">Aprende y se certifica</div>
+                <div class="role-card__actions">
+                    <div class="role-action">Escucha el podcast de 8 minutos</div>
+                    <div class="role-action">Revisa las tarjetas de estudio</div>
+                    <div class="role-action">Completa el quiz de certificacion</div>
+                    <div class="role-action">Queda certificado con evidencia</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Escalation levels -->
+        <div class="escalation">
+            <div class="escalation__title">Cadena de aprobacion automatica segun nivel de riesgo</div>
+            <div class="esc-levels">
+                <div class="esc-level esc-level--low">
+                    <div class="esc-level__badge">Riesgo bajo</div>
+                    <div class="esc-level__who">Supervisor aprueba directo</div>
+                    <div class="esc-level__desc">Tareas rutinarias, bajo potencial de dano.</div>
+                </div>
+                <div class="esc-level esc-level--mid">
+                    <div class="esc-level__badge">Riesgo medio</div>
+                    <div class="esc-level__who">Ingeniero Prevencion revisa</div>
+                    <div class="esc-level__desc">Tareas con ECFs aplicables o trabajo en altura.</div>
+                </div>
+                <div class="esc-level esc-level--high">
+                    <div class="esc-level__badge">Riesgo alto</div>
+                    <div class="esc-level__who">Gerencia de Division aprueba</div>
+                    <div class="esc-level__desc">Riesgos fatales, espacios confinados, energia critica.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- ======= ENTREGABLES ======= -->
+    <div class="section fade-in">
+        <span class="section__label section__label--copper">Que reciben por cada procedimiento</span>
+        <img src="assets/deliverables-package.png" alt="Paquete completo de entregables"
+            class="section-img section-img--medium">
+        <div class="gain-grid">
+            <div class="gain-card">
+                <div class="gain-card__title">Procedimiento formal (Word)</div>
+                <div class="gain-card__text">Documento completo con estructura SIGO/RESSO. Cada seccion verificada
+                    contra la normativa. Listo para firma y publicacion.</div>
+            </div>
+            <div class="gain-card">
+                <div class="gain-card__title">Analisis de Riesgo (ART)</div>
+                <div class="gain-card__text">Generado automaticamente con los riesgos especificos de la tarea, controles
+                    asociados, y EPP requerido. Clasificado por magnitud.</div>
+            </div>
+            <div class="gain-card">
+                <div class="gain-card__title">Checklist de verificacion</div>
+                <div class="gain-card__text">Para que el supervisor valide en terreno que cada punto del procedimiento
+                    se esta cumpliendo antes de iniciar la tarea.</div>
+            </div>
+            <div class="gain-card">
+                <div class="gain-card__title">Audio de capacitacion (8 min)</div>
+                <div class="gain-card__text">Dos voces explican el procedimiento paso a paso en formato conversacional.
+                    El trabajador lo escucha en la camioneta, antes del turno. Sin tener que leer.</div>
+            </div>
+            <div class="gain-card">
+                <div class="gain-card__title">Quiz de certificacion</div>
+                <div class="gain-card__text">10 preguntas sobre el procedimiento. Aprueba con 80% o mas. Registro
+                    digital: nombre, fecha, score. Evidencia auditable para SERNAGEOMIN.</div>
+            </div>
+            <div class="gain-card">
+                <div class="gain-card__title">Tarjetas de estudio</div>
+                <div class="gain-card__text">Conceptos clave del procedimiento en formato de tarjetas para repaso
+                    rapido. Util para reforzamiento antes de la tarea.</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- ======= NUMEROS ======= -->
+    <div class="section fade-in">
+        <span class="section__label section__label--green">Los numeros</span>
+        <div class="proof-card">
+            <h2 class="solution-header" style="text-align:center;">El impacto medible.</h2>
+            <div class="proof-stats">
+                <div class="proof-stat">
+                    <div class="proof-stat__val">95%</div>
+                    <div class="proof-stat__lbl">Reduccion de tiempo</div>
+                </div>
+                <div class="proof-stat">
+                    <div class="proof-stat__val">100%</div>
+                    <div class="proof-stat__lbl">Cumplimiento normativo verificado</div>
+                </div>
+                <div class="proof-stat">
+                    <div class="proof-stat__val">&lt;1 dia</div>
+                    <div class="proof-stat__lbl">De solicitud a trabajador capacitado</div>
+                </div>
+                <div class="proof-stat">
+                    <div class="proof-stat__val">100%</div>
+                    <div class="proof-stat__lbl">Trazabilidad para auditoria</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- ======= LA OFERTA ======= -->
+    <div class="section fade-in">
+        <span class="section__label section__label--copper">La propuesta</span>
+        <div class="offer">
+            <div class="offer__title">Piloto de 30 dias en Planta de Oxigeno</div>
+            <div class="offer__sub">Demostracion real con los procedimientos de POX en Fundicion Chuquicamata. Sin
+                compromiso a largo plazo.</div>
+            <img src="assets/planta-oxigeno.png" alt="Planta de Oxigeno, Fundicion Chuquicamata" class="section-img"
+                style="height:200px; margin-bottom:28px; border-radius:12px;">
+
+            <div class="offer-items">
+                <div class="offer-item">
+                    <div class="offer-item__title">Generacion ilimitada</div>
+                    <div class="offer-item__text">Todos los procedimientos que necesiten para la Planta de Oxigeno
+                        durante 30 dias.</div>
+                </div>
+                <div class="offer-item">
+                    <div class="offer-item__title">Carga de normativa</div>
+                    <div class="offer-item__text">Manuales del compresor C-701, DS 132, DS 594, ECFs aplicables,
+                        procedimientos existentes de POX.</div>
+                </div>
+                <div class="offer-item">
+                    <div class="offer-item__title">Onboarding completo</div>
+                    <div class="offer-item__text">Capacitacion a supervisores y jefes de turno en el uso del sistema.
+                        Solo necesitan saber usar WhatsApp.</div>
+                </div>
+                <div class="offer-item">
+                    <div class="offer-item__title">Panel de control</div>
+                    <div class="offer-item__text">Dashboard con metricas en tiempo real: compliance, tiempos,
+                        trazabilidad. Visible para gerencia.</div>
+                </div>
+            </div>
+
+            <div class="offer__guarantee">
+                <div class="offer__guarantee-title">Garantia de resultado</div>
+                <div class="offer__guarantee-text">Si SPR Complete no reduce el tiempo de gestion documental en al menos
+                    un 80% durante el piloto, el piloto es GRATIS. Sin letra chica.</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- ======= URGENCY ======= -->
+    <div class="section fade-in" style="padding-bottom: 20px;">
+        <div class="urgency">
+            <h3 class="urgency__title">La migracion no es opcional. La pregunta es como.</h3>
+            <p class="urgency__text">Pueden dedicar anos y millones en un proceso manual, lento e inconsistente. O
+                pueden implementar un sistema que lo resuelve en meses, con calidad garantizada, y que mejora con cada
+                uso.<br><br><strong style="color:var(--copper);">Quien entre primero define el estandar para toda la
+                    industria minera chilena.</strong></p>
+        </div>
+    </div>
+
+    <footer class="footer">
+        SPR Complete — Sistema de Gestion Documental Inteligente para Mineria &bull; 2026
+    </footer>
+
+    <script>
+        // Intersection Observer for fade-in
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+    </script>
+</body>
+
+</html>

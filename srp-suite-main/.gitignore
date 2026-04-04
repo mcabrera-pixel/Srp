@@ -1,0 +1,79 @@
+# ─── Dependencias ───────────────────────────────────────────────────────────
+node_modules/
+
+# ─── Build TypeScript ────────────────────────────────────────────────────────
+dist/
+*.tsbuildinfo
+
+# ─── Variables de entorno (contienen API keys y secretos) ────────────────────
+.env
+.env.local
+.env.*.local
+# .env.example  → se versiona como referencia
+
+# ─── Base de datos SQLite (datos en tiempo de ejecución) ─────────────────────
+data/*.db
+data/*.db-shm
+data/*.db-wal
+
+# ─── Índice vectorial (se regenera con seed-risks.mjs / ingest-folder.mjs) ───
+data/vector-index.json
+
+# ─── Archivos generados (DOCX producidos por el servidor) ────────────────────
+data/storage/generated/
+!data/storage/generated/LEEME.txt
+
+# ─── Templates DOCX (archivos binarios grandes, distribuir por separado) ─────
+data/storage/templates/*.docx
+data/storage/templates/*.dotx
+# Mantiene el LEEME.txt placeholder en el repo
+!data/storage/templates/LEEME.txt
+
+docs/procedimientos/*.docx
+docs/procedimientos/*.pdf
+
+# ─── Logs ────────────────────────────────────────────────────────────────────
+logs/
+*.log
+npm-debug.log*
+
+# ─── Sistema operativo ───────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ─── IDEs y editores ─────────────────────────────────────────────────────────
+.vscode/settings.json
+.vscode/launch.json
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# ─── Turborepo ───────────────────────────────────────────────────────────────
+.turbo/
+
+# ─── Next.js ─────────────────────────────────────────────────────────────────
+.next/
+out/
+
+# ─── Remotion / Video ────────────────────────────────────────────────────────
+apps/learn/build/
+apps/learn/output/
+apps/learn/manim/media/
+
+# ─── Agentes Python ──────────────────────────────────────────────────────────
+__pycache__/
+*.pyc
+agents/video-generator/ffmpeg*/
+agents/video-generator/output/
+agents/video-generator/media/
+
+# ─── Firebase / Wrangler ─────────────────────────────────────────────────────
+.firebase/
+.wrangler/
+
+# ─── Temporales ──────────────────────────────────────────────────────────────
+*.tmp
+*.temp

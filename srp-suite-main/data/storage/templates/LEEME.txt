@@ -1,0 +1,16 @@
+TEMPLATES / PLANTILLAS DOCX
+============================
+
+Pon aquí los archivos .docx que se usan como plantilla para generar documentos.
+El sistema los rellena con la información recopilada en la conversación.
+
+Nombre esperado por defecto:
+  prototipo-v1.docx
+
+Para copiar el template desde el proyecto Worker original:
+  Copy-Item ..\mining-rag\assets\*.docx data\storage\templates\
+
+IMPORTANTE:
+  - Los templates NO se vectorizan (no pasan por el RAG).
+  - Solo se usan en la etapa final de generación del DOCX.
+  - El nombre exacto del template se configura en el código de docx-generator.ts

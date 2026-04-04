@@ -1,0 +1,383 @@
+[
+  {
+    "code": "RF01",
+    "name": "ENERGÍA ELÉCTRICA",
+    "full_title": "LISTADO DE AUTODIAGNÓSTICO RIESGO DE FATALIDAD N°01: ENERGÍA ELÉCTRICA",
+    "scope": "Interacción entre energía eléctrica y las personas. Esto puede ocurrir en actividades de operación, mantención, servicios, proyectos en donde se puedan observar exposición a AT - BT (AT > 1000 V y BT <1000 V CA).\r\n• Salas eléctricas, Subestaciones eléctricas, Equipos mineros eléctricos (móviles y semi móviles).\r\n• Herramientas eléctricas, líneas de media y alta tensión.\r\n• Intervención de equipos y sistemas eléctricos energizados.\r\n• Generadores, exposición a CC circuitos, bancos de baterías.\r\n• También incluye equipos de fuente de alimentación, cable de transmisión eléctrica y electrodos",
+    "exclusions": "Este evento considera como exclusión los siguientes escenarios:\r\n• Trabajos en torres de alta tensión con líneas energizadas. (maniobras de operación, mediciones, pruebas y seguimiento de fallas).",
+    "controls": [
+      {
+        "control_code": "CCP1",
+        "control_name": "Personal acreditado para trabajos eléctricos",
+        "objective": "Asegurar que toda persona que realice intervenciones en sistemas eléctricos que puedan estar energizados cuente con calificación y autorización formal vigente (Licencia Eléctrica), conforme a los reglamentos corporativos y divisionales."
+      },
+      {
+        "control_code": "CCP2",
+        "control_name": "Acceso restringido a equipos e instalaciones eléctricas",
+        "objective": "Asegurar que únicamente personal autorizado acceda a equipos e instalaciones eléctricas, mediante barreras físicas y sistemas de custodia y/o control de acceso, según aplique."
+      },
+      {
+        "control_code": "CCP3",
+        "control_name": "Equipos y herramientas eléctricas verificadas",
+        "objective": "Asegurar que todo el personal que interviene sistemas eléctricos utilice exclusivamente herramientas e instrumentos que han sido verificados y se encuentran en buenas condiciones."
+      },
+      {
+        "control_code": "CCP4",
+        "control_name": "Intervención de equipos en condición eléctricamente segura",
+        "objective": "Garantizar que antes de intervenir un sistema eléctrico este se encuentre en condición eléctricamente segura, mediante la aplicación de las 5 Reglas de Oro del Electricista."
+      }
+    ]
+  },
+  {
+    "code": "RF02",
+    "name": "TRABAJO EN ALTURA",
+    "full_title": "LISTADO DE AUTODIAGNÓSTICO RIESGO DE FATALIDAD N°02: TRABAJO EN ALTURA",
+    "scope": "Actividades con potencial de caída desde una altura igual o superior a 1,8 metros, en actividades, tales como:\r\n• Trabajos sobre plataformas fijas temporales (como andamios u otras estructuras similares).\r\n• Puntos de trabajo sobre equipos.\r\n• Trabajos en altura realizados en edificios e instalaciones.\r\n• Uso de plataformas móviles (equipos elevadores de personas, manipuladores telescópicos con canastillo / jaula).\r\n• Presencia en bordes desprotegidos a una altura mayor a 1,8 metros.\r\n• Trabajos realizados sobre escalas que cuenten con plataforma.\r\n• Uso de escalas verticales fijas.\r\n• Techos inclinados, cualquiera sea el ángulo de inclinación.",
+    "exclusions": "• Caída a distinto nivel por colapso estructural.\r\n• Aberturas (vanos) por ausencia de grating y/o barandas.\r\n• Trabajos verticales (cuerdas, saneamiento de taludes).",
+    "controls": [
+      {
+        "control_code": "CCP1",
+        "control_name": "Plataformas y superficies de trabajo estables e íntegras",
+        "objective": "-Asegurar que las plataformas y superficies de trabajo sean estructuralmente estables, capaces de soportar de manera segura las cargas previstas (personas, equipos, materiales) sin colapsar, cumpliendo todas las normativas aplicables.\r\n-Prevenir la falla estructural o la pérdida de estabilidad de las plataformas y superficies durante su uso."
+      },
+      {
+        "control_code": "CCP2",
+        "control_name": "Personal acreditado realiza trabajos en altura",
+        "objective": "Asegurar que toda persona que realiza trabajos en altura cuenta con formación teórico / práctica aprobada, evaluación médica vigente y autorización formal, mediante credencial, para desempeñar tareas específicas en altura física."
+      }
+    ]
+  },
+  {
+    "code": "RF03",
+    "name": "MANIOBRAS DE IZAJE",
+    "full_title": "LISTADO DE AUTODIAGNÓSTICO RIESGO DE FATALIDAD N°03: MANIOBRAS DE IZAJE",
+    "scope": "El escenario de este riesgo de fatalidad incluye:\r\n• Actividades con cargas elevadas por medios mecánicos que incluyen grúas fijas (puente grúa) o móviles (grúas articuladas, grúas telescópicas, grúas de celosía y camión pluma).\r\n• Cargas en movimiento, incluido el transporte, elevaciones que involucran múltiples grúas, transferencia de cargas a otras y colapso de grúas.\r\n• Operaciones con herramientas manuales de levante (tecle de cadena o palanca, entre otros).\r\n• Operaciones de levante con grúa torre.\r\n• Operaciones con equipo extiende tubos (sidebooms).",
+    "exclusions": "Este evento considera como exclusión los siguientes escenarios:\r\n• Operaciones con manipulador de neumáticos.\r\n• Operaciones con porta contenedores.\r\n• Uso de elevadores en plantas.\r\n• Operaciones de levante con grúas horquillas.",
+    "controls": [
+      {
+        "control_code": "CCP1",
+        "control_name": "Equipos y elementos de izaje conforme a especificaciones técnicas",
+        "objective": "Prevenir la falla catastrófica de equipos y elementos de izaje, garantizando que su integridad estructural y funcional se mantiene conforme al diseño del fabricante, a través de un programa de inspección, mantenimiento y certificación."
+      }
+    ]
+  },
+  {
+    "code": "RF04",
+    "name": "LIBERACIÓN DESCONTROLADA DE ENERGÍAS",
+    "full_title": "LISTADO DE AUTODIAGNÓSTICO RIESGO DE FATALIDAD N°04: LIBERACIÓN DESCONTROLADA DE ENERGÍAS",
+    "scope": "Su alcance comprende actividades tales como: Construcción, instalación, montaje, intervención, ajustes, inspección, mantención, reparación, pruebas, puesta en marcha, operación y modificaciones en herramientas, equipos, maquinaria, instalaciones y sistemas con presencia de estas energías.\r\nEste riesgo aplica a todas aquellas energías que pudieran provocar un accidente grave o fatal, tales como:\r\n• Potencial\r\n• Mecánica\r\n• Neumática\r\n• Hidráulica\r\n• Entre otras.",
+    "exclusions": "Se excluyen de este Riesgo las siguientes energías:\r\n• Energía Eléctrica\r\n• Energía Cinética de Vehículos y Equipos\r\n• Energía Química\r\n• Energía Calórica\r\n• Interacción Mecánica / Atrapamientos\r\n• Tiro y Arrastre\r\n• Explosivos\r\n• Caída de Objetos y Personas\r\n• Sistemas de Baja Energía (que no representen riesgo de accidentes graves y/o fatales)",
+    "controls": [
+      {
+        "control_code": "CCP1",
+        "control_name": "Identificación, aislación, bloqueo y verificación de energía cero",
+        "objective": "Garantizar que toda intervención en equipos y sistemas se ejecute bajo una condición verificada de energía cero, asegurando la identificación, aislación, bloqueo y control de energias residuales para eliminar la liberación descontrolada de energía."
+      }
+    ]
+  },
+  {
+    "code": "RF05",
+    "name": "CAÍDA DE ROCAS EN MINA RAJO",
+    "full_title": "LISTADO DE AUTODIAGNÓSTICO RIESGO DE FATALIDAD N°05: CAÍDA DE ROCAS EN MINA RAJO",
+    "scope": "Caída de rocas individual o masiva en áreas operativas de minería a cielo abierto, que puede resultar en lesiones graves y/o fatales por aplastamiento o impacto a las personas.\r\nEscenarios definidos son:\r\n• Carguío de mineral en la frente.\r\n• Descarga de mineral en stock.\r\n• Carguío de estéril.\r\n• Descarga de estéril en botaderos.\r\n• Limpieza de taludes.\r\n• Limpieza o saneamiento de bancos.",
+    "exclusions": "Este evento considera como exclusión los siguientes escenarios.\r\n• Deslizamiento de rocas en pilas.\r\n• Excavaciones para construcción (proyectos).\r\n• Tronaduras de producción y cierre. (Fly rock)\r\n• Tronadura secundaria.(Fly rock)\r\n• Tronaduras civiles (Fly rock) (proyectos)\r\n• Inestabilidades a nivel de banco, inter-rampa y talud global.\r\n• Caída de rocas desde CAEX durante el transporte de material.",
+    "controls": [
+      {
+        "control_code": "CCP1",
+        "control_name": "MODELO Y MONITOREO GEOTÉCNICO DE ESTABILIDAD DE TALUDES Y BANCOS",
+        "objective": "Anticipar y controlar la inestabilidad de taludes y bancos, asegurando que el diseño minero se base en un modelo geotécnico válido y que la monitoreo continua de las\r\nzonas de riesgo permita tomar decisiones operacionales oportunas para prevenir la\r\ncaída de rocas"
+      }
+    ]
+  },
+  {
+    "code": "RF06",
+    "name": "INCENDIO",
+    "full_title": "LISTADO DE AUTODIAGNÓSTICO RIESGO DE FATALIDAD N°06: INCENDIO",
+    "scope": "Este documento aplica al riesgo de fatalidad de Incendio, presente en los distintos centros de\r\ntrabajo, plantas de proceso, minas (rajo y subterránea) y proyectos. \r\nCubre actividades tales como la ejecución de trabajos en caliente (oxicorte, soldadura, corte, desbaste, plasma); el almacenamiento y manipulación de materiales inflamables y combustibles,considerando su separación e incompatibilidades; \r\nla intervención en sistemas eléctricos y sus protecciones (sobretensión y sobrecorriente) en equipos e instalaciones; el uso de equipos con superficies de alta fricción susceptibles de generar aumentos de temperatura  y el mantenimiento \r\nde equipos y componentes críticos con potencial de generar temperatura de ignición.",
+    "exclusions": "Se excluyen del Riesgo de Fatalidad:\r\n•Manipulación y manejo de explosivos\r\n•Actividades de tronadura\r\n•Piromanía",
+    "controls": [
+      {
+        "control_code": "CCP1",
+        "control_name": "MAPEO DE ÁREAS CRÍTICAS Y GESTIÓN DE MATERIALES COMBUSTIBLES E INFLAMABLES",
+        "objective": "Establecer las zonas, áreas e instalaciones más susceptibles a la generación de un incendio, asegurando que la organización y el personal las conozcan. \r\nPrevenir incendios controlando el combustible, asegurando que todos los materiales inflamables y combustibles sean almacenados en lugares autorizados, segregados según su compatibilidad, y manipulados de acuerdo a procedimientos para evitar su\r\ncontacto con fuentes de ignición."
+      }
+    ]
+  },
+  {
+    "code": "RF07",
+    "name": "SUSTANCIAS PELIGROSAS",
+    "full_title": "LISTADO DE AUTODIAGNÓSTICO RIESGO DE FATALIDAD N°07: SUSTANCIAS PELIGROSAS",
+    "scope": "Aplica para todas las divisiones y empresas contratistas, las cuales, dentro de sus procesos operativos, existan actividades/tareas con interacción del personal en la carga/descarga, transporte, almacenamiento, muestreo y dosificación, asi como el uso/manipulación de sustancias químicas peligrosas.\r\nSe incluyen sustancias químicas peligrosas y sus derivados en los procesos de transporte, almacenamiento, utilización o generación a granel, a presión atmosférica o contenedores presurizados, pudiendo ser estas inflamables, corrosivas, asfixiantes, tóxicas y/o comburentes como:\r\n•Sulfhidrato de socio NASH\r\n•Cloro - Gas Cloro (Cl₂g)\r\n•Ácido Clorhídrico\r\n•Ácido Sulfúrico - Ácido Sulfhídrico\r\n•Peróxido de Hidrógeno\r\n•Hidróxido de Sodio\r\n•Ácido Nítrico\r\n•Nitrógeno\r\n•Óxido de calcio (Cal viva)\r\n•Dióxido de Carbono CO₂ (Líquido criogénico)\r\n•Sustancias Inflamables.\r\n•Sustancias Corrosivas.\r\nSustancias Toxicas \r\nSustancias envasadas en bodegas, almacenamientos menores o áreas de procesos Las sustancias que no aparezcan en el listado anterior requieren de un análisis para evaluar la necesidad de crear un nuevo Control Crítico Específico.\r\nNo se permiten almacenamientos irregulares o almacenamientos “temporales” en areas de proceso que no cumplan con los requisitos definidos en presente riesgo de fatalidad.\r\nEn el caso de las sustancias intermedias no aisladas de los procesos, deberan cumplir con los controles CCP1 y CCP2, de tal manera de asegurar el que las actividades con estas sustancias cumplan con la señalización y otros controles básicos, para evitar desviaciones en su manipulación.",
+    "exclusions": "Sustancias Químicas NO peligrosas\r\n•Residuos Peligrosos\r\n•Sustancias biológicas \r\n•Sustancias explosivas reguladas en el RF08.",
+    "controls": [
+      {
+        "control_code": "CCP1",
+        "control_name": "DISEÑO, OPERACIÓN Y SEÑALIZACIÓN EN PROCESOS DE MANEJO Y ALMACENAMIENTO DE SUSTANCIAS QUÍMICAS PELIGROSAS",
+        "objective": "Prevenir la liberación (o descontrol) de sustancias químicas peligrosas, asegurando que toda infraestructura de almacenamiento (estanques, bodegas), líneas de transporte y puntos de muestreo / dosificación cumplan con un diseño técnico que contemple la contención/monitoreo preventivo de derrames/fugas, la ventilación de gases, probables generaciones de incendios, señalización de todos los elementos y la segregación según compatibilidad química."
+      }
+    ]
+  },
+  {
+    "code": "RF08",
+    "name": "TRONADURAS Y EXPLOSIVOS",
+    "full_title": "LISTADO DE AUTODIAGNÓSTICO RIESGO DE FATALIDAD N°08: TRONADURAS Y EXPLOSIVOS",
+    "scope": "Su alcance abarca la gestión integral del ciclo de vida de los explosivos: almacenamiento, transporte, manipulación, carguío, conexión, iniciación de tronadura y verificación post-tronadura, manteniendo control permanente sobre explosivos y accesorios en cada etapa del proceso.\r\nEste riesgo comprende operaciones con explosivos que pueden generar eventos fatales y/o daños materiales tales como:\r\n•Iniciación no controlada y/o espontánea de explosivos o agentes de fragmentación\r\n•Iniciación no controlada y/o espontánea de tiros quedados o rezagados\r\n•Proyección no controlada de fragmentos de roca (Fly Rocks)En el caso de las sustancias intermedias no aisladas de los procesos, deberan cumplir con los \r\ncontroles CCP1 y CCP2, de tal manera de asegurar el que las actividades con estas sustancias cumplan con la señalización y otros controles básicos, para evitar desviaciones en su manipulación.",
+    "exclusions": "Para el carguío automatizado, serán las Divisiones o Proyectos, quienes deberán elaborar un análisis de riesgo, en el cual definan los controles críticos aplicables de este\r\nRiesgo de Fatalidad.",
+    "controls": [
+      {
+        "control_code": "CCP1",
+        "control_name": "PERSONAL ACREDITADO EN\r\nTRONADURA Y MANEJO DE\r\nEXPLOSIVOS",
+        "objective": "Garantizar que todo el personal que diseña, planifica, manipula, transporta y ejecuta maniobras de tronadura posea las competencias, acreditaciones y autorizaciones vigentes requeridas por la ley y la organización, para asegurar una ejecución experta y sin errores del proceso."
+      },
+      {
+        "control_code": "CCP2",
+        "control_name": "TRONADURAS EJECUTADAS\r\nSEGÚN DISEÑO APROBADO",
+        "objective": "Garantizar que cada tronadura seejecutesiguiendoestrictamente los parámetros definidos en un diseño de ingeniería (conceptual, modelo de bloques), el cual debe estar basado en información geológica, geotécnica y operacional actualizada, y cuyo cumplimiento en terreno sea verificado mediante un riguroso proceso de aseguramiento\r\nde calidad (QA/QC)."
+      }
+    ]
+  },
+  {
+    "code": "RF09",
+    "name": "PARTES MÓVILES",
+    "full_title": "LISTADO DE AUTODIAGNÓSTICO RIESGO DE FATALIDAD N°09: PARTES MÓVILES",
+    "scope": "Actividades de operación, mantenimiento, construcción y puesta en marcha donde se utilicen máquinas y equipos con sistemas con partes móviles como por ejemplo: rodillos, despegadora de\r\ncátodos, correas transportadoras, tambores de aglomeración, equipos con ejes expuestos, conjunto de poleas, sistemas de transmisión por engranajes, sistemas de transmisión por cadenas, sistemas\r\nmotrices de equipos, entre otros.",
+    "exclusions": "Se excluyen los trabajos con:\r\n•Herramientas manuales portátiles.\r\n•Herramientas eléctricas fijas.",
+    "controls": [
+      {
+        "control_code": "CCP1",
+        "control_name": "GUARDAS Y PROTECCIONES EN\r\nPARTES MÓVILES",
+        "objective": "Impedir el contacto con partes móviles, asegurando que todos los equipos y maquinarias\r\ncuenten con guardas y protecciones fijas o móviles, diseñadas, instaladas y mantenidas para interponer una barrera física efectiva entre las personas y el peligro."
+      }
+    ]
+  },
+  {
+    "code": "RF10",
+    "name": "VEHÍCULOS",
+    "full_title": "LISTADO DE AUTODIAGNÓSTICO RIESGO DE FATALIDAD N° 10: VEHÍCULOS",
+    "scope": "Este riesgo de fatalidad aplica a vehículos que transitan a través de carreteras, tales como:\r\n• Camionetas.\r\n• Vehículos de transporte de personal como:\r\n• Buses\r\n• Mini buses\r\n• Vehículos de transporte de carga.",
+    "exclusions": "Este evento considera como exclusión los siguientes escenarios:\r\n• Operación de equipos mineros\r\n• Equipos autónomos\r\n• Interacciones de vehículos , equipos móviles con peatones e el sitio, incluido el subterráneo",
+    "controls": [
+      {
+        "control_code": "CCP1",
+        "control_name": "CONDUCTOR ACREDITADO Y APTO FÍSICA Y\r\nPSICOLÓGICAMENTE",
+        "objective": "Garantizar que toda persona que conduzca un vehículo cuente con las competencias\r\ntécnicas, una autorización interna vigente para el tipo de vehículo específico y una\r\ncondición física y psicológica compatible con la tarea de conducir, asegurando así un\r\nestado de alerta y una conducta segura en todo momento."
+      },
+      {
+        "control_code": "CCP2",
+        "control_name": "INTEGRIDAD MECÁNICA Y\r\nSISTEMAS ACTIVOS DEL VEHÍCULO",
+        "objective": "Asegurar que todos los vehículos que transitan en faena cumplan con las\r\nespecificaciones técnicas definidas para el entorno minero y que sus sistemas de\r\nseguridad activos (frenos, dirección, neumáticos) sean mantenidos e\r\ninspeccionados sistemáticamente para garantizar su correcto funcionamiento en\r\ntodo momento."
+      },
+      {
+        "control_code": "CCP3",
+        "control_name": "SISTEMA INTEGRAL DE ASISTENCIA Y\r\nMONITOREO A LA CONDUCCIÓN",
+        "objective": "Garantizar que la conducción de vehículos sea monitoreada y regulada\r\npermanentemente a través de sistemas tecnológicos y reglas operacionales claras,\r\ngestionando activamente la velocidad, la fatiga del conductor y las condiciones del\r\nentorno para prevenir la pérdida de control."
+      },
+      {
+        "control_code": "CCP4",
+        "control_name": "INFRAESTRUCTURA VIAL\r\nCONFORME A DISEÑO",
+        "objective": "Asegurar que todas las rutas y caminos utilizados en la faena sean diseñados,\r\nconstruidos y mantenidos de acuerdo a estándares definidos, garantizando que\r\nelementos como bermas, pretiles, señalización y lechos de frenado estén siempre\r\noperativos para prevenir la pérdida de control o mitigar sus consecuencias."
+      }
+    ]
+  },
+  {
+    "code": "RF11",
+    "name": "ESPACIOS CONFINADOS",
+    "full_title": "LISTADO DE AUTODIAGNÓSTICO RIESGO DE FATALIDAD N° 11: ESPACIOS CONFINADOS",
+    "scope": "Espacio confinado es cualquier espacio con aberturas limitadas de entrada y salida, no diseñados para ocupación continua por uno o más trabajadores, donde se encuentran con una ventilación natural desfavorable en el que pueden acumularse contaminantes tóxicos, inflamables, explosivos o que tengan una atmósfera deficiente o enriquecida de oxígeno.\r\nAplica para:\r\n• Espacios confinados abiertos: Son aquellos que son abiertos en su parte superior y de una profundidad tal que dificulta su ventilación natural, donde se incluyen depósitos abiertos, cubas o cubetas, cubas de desengrasado, pozos abiertos, fosos, bóvedas, cámaras, alcantarillas, zanjas, etc. de más de 1,2 m de profundidad.\r\n• Espacios confinados cerrados: Es cualquier espacio, recinto o estructura donde exista un potencial de deficiencia o enriquecimiento de oxígeno generado por partículas, ambientes con atmósferas explosivas, inflamables o tóxicas, y que además tiene la particularidad de que su ingreso se debe hacer a través de un manhole.\r\nSegún clasificación:\r\n• Clase A: Corresponde a aquellos donde existe un inminente peligro para la vida. Generalmente riesgos atmosféricos como gases inflamables y/o tóxicos, deficiencia o enriquecimiento de oxígeno y también riesgos de atrapamiento y/o de derrumbe.\r\n• Clase B: En esta clase, los peligros potenciales dentro del espacio confinado pueden ser de lesiones y/o enfermedades que no comprometen la vida ni la salud y pueden controlarse a través de los elementos de protección personal.\r\n• Clase C: Esta categoría corresponde a los espacios confinados donde las situaciones de peligro no exigen modificaciones especiales a los procedimientos normales de trabajo o el uso de EPP.\r\nEscenarios definidos: Procesos productivos en: Planta ácido, planta oxígeno, planta de gases, fundición, tostación de minerales y plantas concentradoras (incluye molinos, celdas de flotación, chutes), plantas de chancado (primario, secundario, terciario), plantas SX-EW, incluir acidificación o aglomeración y, en general, aquellos procesos donde existan instalaciones o equipos que cumplan con la definición de espacios confinados. También se consideran las excavaciones de más de 1,2 metros de profundidad.",
+    "exclusions": "Este evento considera como exclusión los siguientes escenarios.\r\n1.- Desarrollo minero subterráneo.\r\n2.- Convertidor (Reactor).\r\n3.- Domos y stock pile.",
+    "controls": [
+      {
+        "control_code": "CCP1",
+        "control_name": "SISTEMA DE INGRESO\r\nCONTROLADO Y VIGILADO",
+        "objective": "Prevenir el ingreso no autorizado o en condiciones inseguras a un espacio confinado,\r\nasegurando que toda entrada sea autorizada mediante un permiso de trabajo, con la\r\npresencia permanente de un vigía y un sistema de comunicación efectivo."
+      }
+    ]
+  },
+  {
+    "code": "RF12",
+    "name": "METALES FUNDIDOS",
+    "full_title": "LISTADO DE AUTODIAGNÓSTICO RIESGO DE FATALIDAD N° 12: METALES FUNDIDOS",
+    "scope": "Interacción de metal fundidos en tareas realizadas en procesos de fusión, conversión, refino moldeo y transporte, donde los trabajadores estén expuestos a derrames, proyección de material fundido, temperaturas elevadas:",
+    "exclusions": "Este evento considera como exclusión los siguientes escenarios:\r\n• Liberación descontrolada de vapor a alta presión en los procesos de fundición.\r\n• Explosiones en Planta de oxígeno.\r\n• Exposición de gases SO3 y SO2 en Planta de ácido.\r\n• Exposición a ácido sulfúrico.\r\n• Procesos de almacenamiento y secado de concentrado de cobre.",
+    "controls": [
+      {
+        "control_code": "CCP1",
+        "control_name": "PERSONAL CAPACITADO PARA\r\nTRABAJAR CON METALES FUNDIDOS",
+        "objective": "Todo trabajador que desarrolle actividades en contacto directo con metales fundidos\r\ndebe estar capacitado y autorizado por la administración, demostrando conocimiento\r\nen los riesgos y controles de los equipos y procesos específicos del área."
+      },
+      {
+        "control_code": "CCP2",
+        "control_name": "CONTROL DE ACCESO A ÁREAS DE\r\nFUNDICIÓN",
+        "objective": "Prevenir la exposición de personal a la línea de fuego del metal fundido, asegurando que\r\ntodo ingreso y tránsito por las naves de fundición sea estrictamente controlado,\r\ncomunicado y autorizado, siguiendo un plan de tránsito establecido."
+      }
+    ]
+  },
+  {
+    "code": "RF13",
+    "name": "CAÍDA DE OBJETOS",
+    "full_title": "LISTADO DE AUTODIAGNÓSTICO RIESGO DE FATALIDAD N° 13: CAÍDA DE OBJETOS",
+    "scope": "Caídas de objetos en áreas de proyectos y/o operaciones mineras, esto incluye procesos, plantas y área mina que puede resultar en lesiones graves y/o fatales a personas.\r\nEscenarios definidos son:\r\n•Trabajos en la vertical sobre andamios y/o estructuras en etapa de construcción y mantención.\r\n• Procesos productivos en plantas concentradoras, incluye molinos, cajones, correas, electroimán, etc.\r\n• Procesos productivos exterior planta. Ejemplos: aglomeradores, chancadores, alimentador, harneros, correas, etc.\r\n• Almacenamiento en bodega.\r\n• Procesos productivos en fundiciones: almacenamiento y transporte de concentrado, área fusión, conversión, refino y moldeo, planta de gases, planta de ácidos y planta de oxígeno.\r\n• Proceso de Inspección y mantención a equipos donde material pueda deprenderse desde equipos de carguío y transporte.",
+    "exclusions": "Este evento considera como exclusión los siguientes escenarios:\r\n• Operaciones con aeronaves no tripuladas (drones).\r\n• Operaciones con aeronaves tripuladas.\r\n• Caídas de rocas por falla de terreno.\r\n• Procesos productivos en minería subterráneas.\r\n• Falla o colapso estructural.\r\n• Perforación en sondaje.\r\n• Proyección de rocas en tronaduras.",
+    "controls": [
+      {
+        "control_code": "CCP1",
+        "control_name": "ESTRUCTURAS Y MATERIALES\r\nSUJETOS EN ALTURA",
+        "objective": "Prevenir la caída de objetos por fallas estructurales, almacenamiento incorrecto o condiciones\r\nambientales, asegurando que todas las estructuras en altura sean inspeccionadas, los materiales\r\nacopiados estén asegurados y se controlen los trabajos ante vibraciones o clima adverso."
+      }
+    ]
+  },
+  {
+    "code": "RF14",
+    "name": "OPERACIÓN FERROVIARIA",
+    "full_title": "LISTADO DE AUTODIAGNÓSTICO RIESGO DE FATALIDAD N°14: OPERACIÓN FERROVIARIA",
+    "scope": "Este riesgo de fatalidad aplica a las siguientes actividades:\r\n•Transporte de mineral vía ferroviaria\r\n•Transporte de pasajeros vía ferroviaria\r\n•Servicios de apoyo a operaciones ferroviarias\r\n•Mantención vías\r\n•Mantención de equipos ferroviarios",
+    "exclusions": "Este riesgo de fatalidad considera como exclusión los siguientes escenarios:\r\nMovimientos ferroviarios fuera de instalaciones de la empresa (áreas de terceros, vías públicas).",
+    "controls": [
+      {
+        "control_code": "CCP1",
+        "control_name": "PERSONAL FERROVIARIO\r\nACREDITADO",
+        "objective": "Garantizar que toda persona que interactúe directamente con la operación ferroviaria posea las competencias técnicas, la aptitud física/psicológica requerida y la autorización\r\nformal y vigente para ingresar y ejecutar sus funciones en la vía férrea, previniendo\r\nerrores operacionales por falta de capacitación o ingreso no controlado"
+      }
+    ]
+  },
+  {
+    "code": "RF16",
+    "name": "VACIADOS, CHIMENEAS, PIQUES",
+    "full_title": "LISTADO DE AUTODIAGNÓSTICO RIESGO DE FATALIDAD N°16: VACIADOS, CHIMENEAS, PIQUES",
+    "scope": "Actividades que se realizan en áreas de desarrollo verticales e inclinadas en las que exista el potencial de caída de personas y/o equipos mineros e industriales, que pueden resultar en lesiones graves y/o fatales hacia las personas, estos incluyen:\r\n• Uso de escalas verticales fijas.\r\n• Operación de piques y chimeneas\r\n• Caídas de equipos y personas.\r\n• Construcción, operación y mantenimiento.",
+    "exclusions": "Este evento considera como exclusión los siguientes escenarios:\r\n• Montaje de plataforma\r\n• Túneles horizontales.",
+    "controls": [
+      {
+        "control_code": "CCP1",
+        "control_name": "CONDICIONES SEGURAS DE\r\nINGRESO Y OPERACIÓN EN PIQUES Y CHIMENEAS",
+        "objective": "Prevenir caídas, asfixia o atrapamiento, asegurando que el ingreso y operación en puntos de\r\nvaciado, piques y chimeneas se realice únicamente tras aislar y bloquear energías, monitorear la\r\natmósfera, y controlar el acceso con segregación y señalización adecuadas."
+      }
+    ]
+  },
+  {
+    "code": "RF18",
+    "name": "PLANCHONEO",
+    "full_title": "LISTADO DE AUTODIAGNÓSTICO RIESGO DE FATALIDAD N°18: PLANCHONEO",
+    "scope": "Aplica a operaciones subterráneas de:\r\n• Desarrollo\r\n• Construcción de túneles, galerías.\r\n• Operaciones de producción, limpieza.\r\n• Acuñadura, saneamiento, fortificación.\r\n• Mantenimiento",
+    "exclusions": "Este evento considera como exclusión los siguientes escenarios.\r\n•  Hundimiento significativo (estructural) o falla geotécnica mayor (colapso).\r\n•  Estallido de rocas",
+    "controls": [
+      {
+        "control_code": "CCP1",
+        "control_name": "ESTABILIZACIÓN CONFORME A DISEÑO GEOTÉCNICO (SOSTENIMIENTO, FORTIFICACIÓN Y ACUÑADURA",
+        "objective": "Controlar el desprendimiento de rocas y prevenir colapsos, asegurando que toda excavación\r\nsubterránea sea estabilizada oportunamente mediante acuñadura y fortificación conforme a un diseño geotécnico validado"
+      }
+    ]
+  },
+  {
+    "code": "RF20",
+    "name": "SÍLICE",
+    "full_title": "LISTADO DE AUTODIAGNÓSTICO RIESGO DE FATALIDAD N°20: SÍLICE",
+    "scope": "Mantener las fuentes de emisión de polvo respirable con sílice con controles disponibles y eficientes para evitar concentraciones ambientales peligrosas y cumplir con el LPP.\r\nLa implementación del RF 20 aplica en los procesos de Codelco y de empresas contratistas que presenten trabajadores expuestos a sílice, definidos cualitativa cuantitativamente. \r\nLas empresas que no presentan exposición a sílice en sus trabajadores pero que ingresan a procesos donde existe exposición, deberán adoptar las\r\nmedidas de control que les apliquen de dichos procesos, como: Protección respiratoria efectiva y presurización de cabinas.\r\nFuentes de emisión:\r\n• Equipo o punto desde donde se genera o emite polvo respirable con contenido de sílice al ambiente de trabajo y que tiene el potencial de impactar la exposición a sílice del\r\npersonal.\r\n• (Ejemplos de fuentes de emisión: extracción, traspasos, puntos de carguío, puntos devaciado-carguío, acopios, stock pile, chancadores, harneros, correas en puntos de transferencias, etc.)",
+    "exclusions": "Se excluye:\r\n• Emisión de polvo por tronaduras en mina rajo/superficie.\r\n• Procesos de aseo no industrial.",
+    "controls": [
+      {
+        "control_code": "CCP1",
+        "control_name": "SUPRESIÓN, HUMECTACIÓN,\r\nCOLECCIÓN Y CONFINAMIENTO DE FUENTES",
+        "objective": "Garantizar el control efectivo de polvo respirable con contenido de sílice en las fuentes críticas de\r\nemisión, mediante sistemas de supresión, humectación, colección y confinamiento, asegurando eficiencias operativas superiores al 90% del estándar de diseño definido por el proyecto o fabricante del equipo o sistema."
+      }
+    ]
+  },
+  {
+    "code": "RF21",
+    "name": "ARSÉNICO",
+    "full_title": "LISTADO DE AUTODIAGNÓSTICO RIESGO DE FATALIDAD N°21: ARSÉNICO",
+    "scope": "Mantener las fuentes de emisión de arsénico soluble con controles disponibles y eficientes para evitar concentraciones ambientales peligrosas y cumplir con el LPP y disponer de controles higiénico sanitarios, administrativos y de protección personal para prevenir que cuando el trabajador entre en contacto con el agente, este no ingrese a su organismo en una cantidad tal que su índice de tolerancia biológica supere el límite respectivo (LTB).\r\nLa implementación del RF 21 aplica en los procesos de Codelco y de empresas contratistas que presenten trabajadores expuestos a arsénico según lo establece el PNS de Metales y Metaloides.\r\nFuentes de emisión:\r\n• Equipo o unidades de proceso desde donde se emite arsénico soluble como polvo ensuspensión, material húmedo (borra) o como solución arsenical (líquida) donde el trabajador puede exponerse al agente por vía inhalatoria, digestiva o dérmica. (Ejemplos de fuentes de emisión: Hornos de fundición, Precipitador Electrostático de polvos metalúrgicos, sistema de carguío y filtros de plantas de tratamiento de efluentes, barros anódicos en celdas de refinación, sistema de carguío de polvos  metalúrgicos, acopios de residuos arsenicales en botaderos de disposición final, etc.).\r\n•Pérdida de Control de la Exposición a Arsénico Aquella que se produce en procesos, áreas o tareas en presencia de arsénico soluble y se superan los límites permisibles ambientales y/o se mantiene contacto directo con el agente",
+    "exclusions": "Se excluyen los procesos donde el arsénico se encuentre en compuestos insolubles (ejemplo: enargita, arsenopirita), por lo tanto, no se considera el arsénico presente en los procesos de extracción (Mina Rajo o subterránea), los procesos de concentración desulfuros (Molienda, Flotación, Espesamiento, Filtrado y Relaves) y los procesos minero metalúrgicos de obtención de cobre a partir de sus compuestos oxidados (Chancados, Apilamiento y regado, Electro obtención).\r\nTambién se excluye la exposición a gas arsina (AsH3), el cual es una agente de generación accidental y potencialmente fatal a bajas concentraciones que debe ser abordado en el marco del RF11: Espacios Confinados.",
+    "controls": [
+      {
+        "control_code": "CCP1",
+        "control_name": "FUENTES DE ARSÉNICO\r\nIDENTIFICADAS, SEGREGADAS Y\r\nRESTRINGIDAS",
+        "objective": "Garantizar que todas las fuentes de emisión de compuestos solubles de arsénico sean identificadas, caracterizadas respecto del riesgo de exposición, señalizada y segregada el área donde se encuentran y de acceso restringido para asegurar que solo personal autorizado respecto del control de la exposición, interactúe con las fuentes de arsénico peligroso."
+      }
+    ]
+  },
+  {
+    "code": "RF23",
+    "name": "COLAPSO ESTRUCTURAL DEL MACIZO ROCOSO",
+    "full_title": "LISTADO DE AUTODIAGNÓSTICO RIESGO DE FATALIDAD N°23: COLAPSO ESTRUCTURAL DEL MACIZO ROCOSO",
+    "scope": "Este riesgo considera la pérdida del control de estabilidad y soporte subterráneo en forma lenta y progresiva, generando un desprendimiento y/o colapso mayor de rocas en labores mineras, resultando en lesiones graves/fatales por atrapamiento, impacto o aplastamiento. Daños en la infraestructura y continuidad operacional.\r\nAlgunos ejemplos son: Desprendimientos o deformaciones lo suficientemente grandes como para evitar el acceso físico a una excavación subterránea o una unidad.",
+    "exclusions": "Las exclusiones son:\r\n• Desprendimientos en rajo/superficie.\r\n• Desprendimientos de rocas subterráneos inducidos por sísmicos (Estallidos de rocas).\r\n• Desprendimientos de rocas individuales (PCERS).",
+    "controls": [
+      {
+        "control_code": "CCP1",
+        "control_name": "SISTEMA DE MONITOREO\r\nGEOMECÁNICO Y CONTROL DE LA PRODUCCIÓN",
+        "objective": "Anticipar un colapso estructural del macizo rocoso, mediante el monitoreo continuo de la deformación y sismicidad del macizo rocoso y el control de la secuencia de extracción, para\r\ngenerar alertas tempranas y tomar decisiones operacionales que eviten la inestabilidad."
+      }
+    ]
+  },
+  {
+    "code": "RF24",
+    "name": "TALUDES",
+    "full_title": "LISTADO DE AUTODIAGNÓSTICO RIESGO DE FATALIDAD N°24: TALUDES",
+    "scope": "Deslizamiento de material a nivel de talud interrampa y global en áreas operativas de minería a cielo abierto, que puede resultar en lesiones graves y/o fatales hacia las personas.\r\nEscenarios definidos son:\r\n• Inestabilidad a nivel de banco, interrampa y al nivel global\r\n• Limpieza de taludes.\r\n• Limpieza o saneamiento de bancos.\r\n• Movimiento de tierra (rampa, pretiles, etc.).\r\n• Traslado de camionetas y equipos interior mina.\r\n• Actividades de marcación y/o supervisión en terreno.\r\n• Actividades de tronadura.\r\n• Actividades de perforación, operación y mantención que contemplen instalaciones y/o posturas prolongadas",
+    "exclusions": "Este evento considera como exclusión los siguientes escenarios.\r\n• Excavaciones para construcción (obras civiles en proyectos).\r\n• Carguío de mineral en la frente no rematada.\r\n• Inestabilidades en pilas y botaderos de lixiviación\r\n• Caída de rocas.\r\n• Interacción de rajo con cavidades.\r\n• Interacción de rajo con cráter.",
+    "controls": [
+      {
+        "control_code": "CCP1",
+        "control_name": "SISTEMA INTEGRAL DE\r\nCARACTERIZACIÓN, MODELAMIENTO Y\r\nMONITOREO GEOTÉCNICO",
+        "objective": "Asegurar la estabilidad de los taludes, mediante un sistema integrado que garantice la captura\r\nde datos, la actualización de modelos, el análisis de estabilidad y el monitoreo continuo para\r\nanticipar inestabilidades y tomar decisiones operacionales informadas."
+      }
+    ]
+  },
+  {
+    "code": "RF25",
+    "name": "EQUIPOS MINEROS E INDUSTRIALES",
+    "full_title": "LISTADO DE AUTODIAGNÓSTICO RIESGO DE FATALIDAD N°25: EQUIPOS MINEROS E INDUSTRIALES",
+    "scope": "Equipos de acuñadura - Equipos de Fortificación - Cargador LHD (Carga, acarreo y descarga) Camión de extracción mina subterránea - Roboshot (Equipo shotcrete) - Camión articulado mina subterránea - Camión de extracción mina rajo (CAEX) - Camión aljibe mina - Pala electromecánica, diésel o hidráulica - Rotopala - Equipos de perforación (sobre orugas o neumáticos) - Camión de transporte de escoria - Camión mixer (minería subterránea) - Camión fábrica (explosivos) - Camión + tractor tapa pozos - Tractor sobre neumáticos (wheeldozer) - Tractor sobre orugas (bulldozer) - Equipos de sondaje (orugas o neumáticos) - Equipos cargador frontal carguío y/o de apoyo - Equipos excavadoras - Equipos retroexcavadoras - Equipos minicargador - Equipos minicargador tapa pozos- Equipos motoniveladora - Equipos manipulador de neumáticos - Equipos manipulador telescópico- Equipo rodillo compactador-aplanador - Pavimentadora - Grúa horquilla (montacarga) - Grúa telescópica - Camión barre nieve - Camión barredor - Camión aspirador (supersucker) - Otros cuya operación requiera licencia tipo D o casos especiales que determine cada Centro de Trabajo",
+    "exclusions": "Este evento considera como exclusión los siguientes escenarios.\r\n• Operaciones ferroviarias dentro y fuera de los recintos industriales de CODELCO\r\n• Equipos o maquinarias no autopropulsados\r\n• Equipos alza-hombres (man-lift)\r\n• Grúa articulada\r\n• Grúa torre\r\n• Pérdida de control Vehículos livianos\r\n• Pérdida de control maniobras de izaje\r\n• Equipos autónomo",
+    "controls": [
+      {
+        "control_code": "CCP1",
+        "control_name": "CONDUCTOR ACREDITADO Y APTO FÍSICA Y PSICOLÓGICAMENTE",
+        "objective": "Garantizar que toda persona que opere equipos mineros esté debidamente formada, evaluada,  \r\npor la organización y con aptitud médica vigente, reduciendo el riesgo de errores operacionales\r\nderivados de fallas humanas o falta de capacitación."
+      }
+    ]
+  },
+  {
+    "code": "RF27",
+    "name": "ATROPELLO",
+    "full_title": "LISTADO DE AUTODIAGNÓSTICO RIESGO DE FATALIDAD N°27: ATROPELLO",
+    "scope": "Aplica a todas las operaciones, instalaciones y recintos industriales de Codelco, donde exista interacción directa entre personas con equipos/vehículos.\r\nEjemplos:\r\n• Bodegas (Operación logística y gestión de insumos y materiales)\r\n• Plantas de Molibdeno (Operación en traslado de maxi sacos)\r\n• Patios de manejo de cátodos o ánodos.\r\nOtros",
+    "exclusions": "Este evento considera como exclusión los siguientes escenarios.\r\n• Pérdida de control maniobras de izaje.\r\n• Pérdida de control de vehículos livianos\r\n• Pérdida de control de equipos mineros e industriales\r\n• Pérdida de control de equipos autónomos",
+    "controls": [
+      {
+        "control_code": "CCP1",
+        "control_name": "RUTAS VEHICULARES Y PEATONALES CONFORME A DISEÑO (SEGREGACIÓN,\r\nSEÑALÉTICA, ILUMINACIÓN)",
+        "objective": "Asegurar que toda la infraestructura vial y peatonal destinada al tránsito de equipos y personas, como por ejemplo: rampas, caminos, accesos, senderos, segregaciones, iluminación, semáforos,\r\nrefugios, otros, esté implementada para mantener en control las condiciones de circulación y visibilidad en todas las zonas de interacción."
+      }
+    ]
+  },
+  {
+    "code": "RF28",
+    "name": "CAVING",
+    "full_title": "LISTADO DE AUTODIAGNÓSTICO RIESGO DE FATALIDAD N°28: CAVING",
+    "scope": "Aplica a la Pérdida del Control de Caving durante la explotación subterránea. En este escenario se puede producir la colgadura de un área determinada por falta de propagación de la cavidad. \r\nPosteriormente la pérdida de control puede generar un desprendimiento y/o colapso súbito de material, resultando en un efecto de compresión de aire generando lesiones graves o fatales a\r\npersonas y daños en la infraestructura y equipos mineros",
+    "exclusions": "Se excluyen los siguientes escenarios:\r\n• Pérdida de control estructural de macizo rocoso.\r\n• Pérdida de control estabilidad de roca subterránea.\r\n• Fallas inducidas por sísmica.\r\nPérdida instantánea de la estabilidad de excavaciones en labores subterráneas.",
+    "controls": [
+      {
+        "control_code": "CCP1",
+        "control_name": "SISTEMA DE MONITOREO\r\nGEOMECÁNICO Y CONTROL DE LA PRODUCCIÓN",
+        "objective": "Prevenir la formación de colgaduras y el crecimiento descontrolado del airgap, mediante el monitoreo continuo de la sismicidad y la subsidencia del macizo rocoso, y el control estricto de la secuencia y velocidad de extracción."
+      }
+    ]
+  },
+  {
+    "code": "RF29",
+    "name": "CAÍDA A CUERPOS LÍQUIDOS",
+    "full_title": "LISTADO DE AUTODIAGNÓSTICO RIESGO DE FATALIDAD N°29: CAÍDA A CUERPOS LÍQUIDOS",
+    "scope": "• Plantas de procesamiento de mineral \r\n• Espesadores \r\n• Estanques y piscinas de almacenamiento de aguas industriales\r\n• Canaletas de conducción y alimentación de relaves al interior de plantas concentradoras\r\n• Tranques de relaves \r\n• Embalses de agua y de relave",
+    "exclusions": "Este evento considera como exclusión los siguientes escenarios:\r\n• Estanques y piscinas que almacenan SUSPEL, SX-EW.",
+    "controls": [
+      {
+        "control_code": "CCP1",
+        "control_name": "ZONAS DE CUERPOS LÍQUIDOS\r\nAISLADAS Y SEÑALIZADAS",
+        "objective": "Garantizar que todos los cuerpos de líquidos contenidos estén físicamente segregados mediante cierres perimetrales efectivos y señalización de advertencia visible, aplicando un estricto protocolo de control de acceso para prevenir el ingreso no autorizado de personas o equipos a zonas de riesgo de caída."
+      }
+    ]
+  }
+]

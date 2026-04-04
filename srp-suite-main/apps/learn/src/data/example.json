@@ -1,0 +1,92 @@
+{
+    "id": "ecf-001-bloqueo",
+    "titulo": "ECF 1 - Bloqueo de Energías",
+    "subtitulo": "Procedimiento de Trabajo Seguro",
+    "duracion_total": 120,
+    "metadata": {
+        "version": "1.0",
+        "fecha_vigencia": "2026-01-01",
+        "normativa": [
+            "DS 132",
+            "DS 594",
+            "NCh 2245"
+        ]
+    },
+    "pasos": [
+        {
+            "numero": 1,
+            "titulo": "Identificación de Energías",
+            "contenido": "Identifique TODAS las fuentes de energía presentes en el equipo: eléctrica, neumática, hidráulica, mecánica, térmica y potencial.",
+            "duracion": 20,
+            "quiz": {
+                "pregunta": "¿Cuántos tipos de energía deben identificarse?",
+                "opciones": [
+                    "Solo eléctrica",
+                    "Eléctrica y mecánica",
+                    "Todas las presentes"
+                ],
+                "correcta": 2
+            }
+        },
+        {
+            "numero": 2,
+            "titulo": "Desenergización",
+            "contenido": "Detenga la máquina siguiendo el procedimiento normal de apagado. Desconecte la fuente de energía principal usando los dispositivos de corte.",
+            "duracion": 20,
+            "quiz": {
+                "pregunta": "¿Cuál es el primer paso antes de desenergizar?",
+                "opciones": [
+                    "Colocar candado",
+                    "Detener la máquina normalmente",
+                    "Avisar al supervisor"
+                ],
+                "correcta": 1
+            }
+        },
+        {
+            "numero": 3,
+            "titulo": "Bloqueo con Candado Personal",
+            "contenido": "Cada trabajador debe colocar su candado PERSONAL en el dispositivo de bloqueo. El candado debe estar identificado con nombre y número.",
+            "duracion": 20,
+            "quiz": {
+                "pregunta": "¿Qué tipo de candado debe usarse?",
+                "opciones": [
+                    "Candado de la faena",
+                    "Candado personal identificado",
+                    "Cualquiera disponible"
+                ],
+                "correcta": 1
+            }
+        },
+        {
+            "numero": 4,
+            "titulo": "Etiquetado",
+            "contenido": "Coloque la etiqueta de peligro con: nombre del trabajador, fecha, hora de inicio y descripción del trabajo a realizar.",
+            "duracion": 20,
+            "quiz": {
+                "pregunta": "¿Qué información debe contener la etiqueta?",
+                "opciones": [
+                    "Solo el nombre",
+                    "Nombre, fecha, hora y descripción",
+                    "Solo la fecha"
+                ],
+                "correcta": 1
+            }
+        },
+        {
+            "numero": 5,
+            "titulo": "Verificación de Energía Cero",
+            "contenido": "Intente encender el equipo para verificar que está efectivamente desenergizado. Confirme que NO hay energía residual en ningún sistema.",
+            "duracion": 20,
+            "quiz": {
+                "pregunta": "¿Cómo se verifica la energía cero?",
+                "opciones": [
+                    "Preguntando al supervisor",
+                    "Intentando encender el equipo",
+                    "Revisando el tablero"
+                ],
+                "correcta": 1
+            }
+        }
+    ]
+}

@@ -1,0 +1,15 @@
+RIESGOS FATALES (documentos adicionales)
+=========================================
+
+Esta carpeta es OPCIONAL.
+Los riesgos fatales principales ya vienen del archivo JSON del proyecto original
+y se cargan con:  node scripts/seed-risks.mjs
+
+Usa esta carpeta SOLO si tienes documentos adicionales de riesgos en PDF/DOCX
+que quieras incluir en el RAG (ej: manuales de riesgo específicos de tu faena).
+
+Formatos aceptados: .pdf  .docx  .txt
+
+Para cargar los datos estructurados (recomendado en lugar de esta carpeta):
+  node scripts/seed-risks.mjs
+  → Lee automáticamente ../mining-rag/data/fatality-risks.json
