@@ -63,12 +63,14 @@ Srp/
 | **SRP Guard** | Validacion de cumplimiento regulatorio |
 | **SRP Vault** | Gestion del ciclo de vida documental |
 | **SRP Mobile** | Acceso offline para trabajadores en terreno |
+| **SRP Vision** | Asistencia IA en tiempo real con camara en casco ([ver detalle](docs/srp-vision/)) |
 
 ## Documentacion
 
 - [Informe CTO → CEO](docs/informe-cto-ceo-srp-suite.md) — Arquitectura, equipo y estado completo
 - [Prompt Stitch v1](docs/prompt-stitch-web.md) — Especificacion del panel de administracion
 - [Prompt Stitch v2](docs/prompt-stitch-2.0-web-comercial.md) — Especificacion de la web comercial minera
+- [SRP Vision](docs/srp-vision/) — Asistencia IA en tiempo real para tecnicos en terreno (propuesta PUCV)
 
 ## Quick Start (Backend API)
 
