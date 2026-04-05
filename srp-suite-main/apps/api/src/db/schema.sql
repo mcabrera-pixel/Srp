@@ -139,3 +139,50 @@ CREATE TABLE IF NOT EXISTS feedback_entries (
 
 CREATE INDEX IF NOT EXISTS idx_feedback_phone ON feedback_entries(phone);
 CREATE INDEX IF NOT EXISTS idx_feedback_proc  ON feedback_entries(procedure_id);
+
+-- ============================================================================
+-- SRP VISION — Sesiones de asistencia visual en tiempo real
+-- ============================================================================
+
+CREATE TABLE IF NOT EXISTS vision_sessions (
+  id TEXT PRIMARY KEY,
+  technician_phone TEXT NOT NULL,
+  equipment_tag TEXT NOT NULL,          -- ej: "CAEX-930E-014", "PALA-4100XPC-03"
+  sop_id TEXT,                          -- FK a procedures o base_documents (nullable)
+  status TEXT NOT NULL DEFAULT 'active', -- active | paused | ended
+  started_at TEXT NOT NULL,
+  ended_at TEXT,
+  summary TEXT,                         -- resumen AI post-sesión
+  findings TEXT,                        -- JSON: hallazgos detectados
+  created_at TEXT NOT NULL
+);
+
+CREATE INDEX IF NOT EXISTS idx_vision_sessions_tech ON vision_sessions(technician_phone);
+CREATE INDEX IF NOT EXISTS idx_vision_sessions_status ON vision_sessions(status);
+
+-- --------------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS vision_frames (
+  id TEXT PRIMARY KEY,
+  session_id TEXT NOT NULL REFERENCES vision_sessions(id),
+  frame_number INTEGER NOT NULL,
+  image_path TEXT NOT NULL,             -- key en LocalStorage
+  analysis TEXT,                        -- JSON: resultado del análisis LLM
+  risk_level TEXT,                      -- none | low | medium | high | critical
+  captured_at TEXT NOT NULL
+);
+
+CREATE INDEX IF NOT EXISTS idx_vision_frames_session ON vision_frames(session_id);
+
+-- --------------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS vision_instructions (
+  id TEXT PRIMARY KEY,
+  session_id TEXT NOT NULL REFERENCES vision_sessions(id),
+  source TEXT NOT NULL,                 -- 'ai' | 'senior' | 'technician'
+  content TEXT NOT NULL,
+  audio_path TEXT,                      -- key en LocalStorage del MP3 generado
+  created_at TEXT NOT NULL
+);
+
+CREATE INDEX IF NOT EXISTS idx_vision_instructions_session ON vision_instructions(session_id);

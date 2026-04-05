@@ -69,7 +69,27 @@ SRP: Suite de IA para Seguridad Minera basada en arquitectura RAFT.
 
 ---
 
-## 🏗️ Estructura del Monorepo
+## SRP Vision
+**"Un supervisor experto con IA en el oido del tecnico"**
+
+| Problema | Solucion |
+|----------|----------|
+| Tecnicos junior sin experiencia senior | Asistencia IA en tiempo real por audio |
+| Errores no detectados en mantenimiento | Vision por computador detecta anomalias |
+| Conocimiento tacito se pierde con jubilacion | Seniors entrenan la IA antes de irse |
+| Sin supervision remota de calidad | Multi-pantalla: N mantenciones simultaneas |
+
+**Stack**: GPT-4o Vision / Gemini Flash + WebSocket + OpenAI TTS + Whisper STT
+
+**Hardware**: Camara en casco (Insta360 GO 3S) + Audifonos conduccion osea (Shokz OpenComm2)
+
+**Equipos target**: CAEX Komatsu 930E/980E, Palas P&H 4100XPC
+
+**Colaboracion academica**: PUCV (4 lineas de investigacion, CORFO Innova ~USD $1.1M)
+
+---
+
+## Estructura del Monorepo
 
 ```
 srp-suite/

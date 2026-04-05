@@ -213,3 +213,52 @@ export interface FeedbackEntry {
   context: string | null;       // JSON — e.g. procedure title, area
   created_at: string;
 }
+
+// ============================================================================
+// SRP VISION — Asistencia visual en tiempo real
+// ============================================================================
+
+export type VisionSessionStatus = 'active' | 'paused' | 'ended';
+export type VisionRiskLevel = 'none' | 'low' | 'medium' | 'high' | 'critical';
+export type VisionInstructionSource = 'ai' | 'senior' | 'technician';
+
+export interface VisionSession {
+  id: string;
+  technician_phone: string;
+  equipment_tag: string;
+  sop_id: string | null;
+  status: VisionSessionStatus;
+  started_at: string;
+  ended_at: string | null;
+  summary: string | null;
+  findings: string | null;       // JSON stringified
+  created_at: string;
+}
+
+export interface VisionFrame {
+  id: string;
+  session_id: string;
+  frame_number: number;
+  image_path: string;
+  analysis: string | null;       // JSON stringified VisionAnalysis
+  risk_level: VisionRiskLevel | null;
+  captured_at: string;
+}
+
+export interface VisionInstruction {
+  id: string;
+  session_id: string;
+  source: VisionInstructionSource;
+  content: string;
+  audio_path: string | null;
+  created_at: string;
+}
+
+export interface VisionAnalysis {
+  instruction: string;
+  risk_level: VisionRiskLevel;
+  detected_components: string[];
+  anomalies: string[];
+  confidence: number;            // 0-1
+  sop_step_match: string | null; // qué paso del SOP corresponde
+}

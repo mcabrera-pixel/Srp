@@ -248,6 +248,32 @@ app.get('/api/feedback', async (_req, res) => {
   } catch (e: any) { res.status(500).json({ error: e.message }); }
 });
 
+// ── SRP Vision UI ───────────────────────────────────────────────────────────
+
+app.get('/vision', (_req, res) => res.sendFile(join(__dirname, 'web-chat', 'public', 'vision', 'index.html')));
+app.get('/vision/dashboard', (_req, res) => res.sendFile(join(__dirname, 'web-chat', 'public', 'vision', 'dashboard.html')));
+
+// ── SRP Vision API ──────────────────────────────────────────────────────────
+
+import { listActiveVisionSessions as listVisionSessions, getVisionSession as getVisionSessionById, getSessionFrames as getVFrames, getSessionInstructions as getVInstructions } from './db/queries.js';
+
+app.get('/api/vision/sessions', async (_req, res) => {
+  try {
+    const sessions = await listVisionSessions(db);
+    res.json(sessions);
+  } catch (e: any) { res.status(500).json({ error: e.message }); }
+});
+
+app.get('/api/vision/sessions/:id', async (req, res) => {
+  try {
+    const session = await getVisionSessionById(req.params.id, db);
+    if (!session) { res.status(404).json({ error: 'Sesión no encontrada' }); return; }
+    const frames = await getVFrames(req.params.id, db);
+    const instructions = await getVInstructions(req.params.id, db);
+    res.json({ session, frames, instructions });
+  } catch (e: any) { res.status(500).json({ error: e.message }); }
+});
+
 // ── Web Chat router ───────────────────────────────────────────────────────────
 
 const chatRouter = createWebChatRouter(env);
@@ -323,15 +349,16 @@ app.post('/ingest', async (req, res) => {
 // ── HTTP server + WebSocket ───────────────────────────────────────────────────
 
 const server = createServer(app);
-attachWebSocket(server);
+attachWebSocket(server, env);
 
 server.listen(PORT, () => {
   console.log('');
   console.log('╔══════════════════════════════════════════════╗');
-  console.log('║    ⛏️  Mining RAG Local — Running             ║');
+  console.log('║    SRP Suite + Vision — Running              ║');
   console.log('╠══════════════════════════════════════════════╣');
   console.log(`║  Server:     http://localhost:${PORT}          ║`);
   console.log(`║  Web Chat:   http://localhost:${PORT}/          ║`);
+  console.log(`║  Vision:     http://localhost:${PORT}/vision    ║`);
   console.log(`║  Health:     http://localhost:${PORT}/health    ║`);
   console.log(`║  Webhook:    POST /webhook                   ║`);
   console.log('╚══════════════════════════════════════════════╝');

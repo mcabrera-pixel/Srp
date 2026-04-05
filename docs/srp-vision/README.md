@@ -100,17 +100,57 @@ SRP Suite es el **cerebro documental**. SRP Vision es los **ojos y oidos en terr
 
 ---
 
-## Documentos
+## Implementacion (Backend)
 
-- [Propuesta de Colaboracion MCCO-PUCV](SRP-Vision-Propuesta-Colaboracion-MCCO-PUCV.pdf) — Documento formal (16 pags, confidencial)
+El backend de SRP Vision ya esta integrado en `srp-suite-main/apps/api/`:
+
+| Componente | Archivo | Estado |
+|-----------|---------|--------|
+| Schema DB (vision_sessions, vision_frames, vision_instructions) | `src/db/schema.sql` | Implementado |
+| Queries DB | `src/db/queries.ts` | Implementado |
+| Tipos TypeScript | `src/types.ts` | Implementado |
+| Message Bus (vision:frame, vision:instruction, vision:alert) | `src/services/message-bus.ts` | Implementado |
+| LLM Multimodal (callVisionLLM) | `src/services/llm.ts` | Implementado |
+| TTS Service (OpenAI TTS) | `src/services/tts-service.ts` | Implementado |
+| Vision Session Service | `src/services/vision-session.ts` | Implementado |
+| WebSocket /ws/vision | `src/web-chat/router.ts` | Implementado |
+| PWA Captura (tecnico campo) | `src/web-chat/public/vision/index.html` | Implementado |
+| Dashboard Punto de Control | `src/web-chat/public/vision/dashboard.html` | Implementado |
+| REST API (/api/vision/*) | `src/server.ts` | Implementado |
+
+### URLs
+
+- **Tecnico en campo:** `http://localhost:3000/vision`
+- **Punto de control:** `http://localhost:3000/vision/dashboard`
+- **API sesiones activas:** `GET /api/vision/sessions`
+- **API detalle sesion:** `GET /api/vision/sessions/:id`
 
 ---
 
-## Proximos Hitos (segun propuesta PUCV)
+## Documentos
+
+- [Propuesta de Colaboracion MCCO-PUCV](SRP-Vision-Propuesta-Colaboracion-MCCO-PUCV.pdf) — Documento formal (16 pags, confidencial)
+- [Roadmap completo](../../.claude/plans/wiggly-jingling-pebble.md) — Plan de ejecucion Fase 0 a Fase 4
+
+---
+
+## Roadmap
+
+| Fase | Duracion | Hito | Hardware | Operacional/mes |
+|------|----------|------|----------|-----------------|
+| **0** | Sem 1-2 | Demo en escritorio | $700 | $50 |
+| **1** | Sem 3-8 | MVP funcional 4G | $950 | $120 |
+| **2** | Mes 3-6 | Piloto CODELCO 5-10 techs | $11,000 | $500 |
+| **3** | Mes 7-12 | Produccion 50+ techs | $50,000 | $2,000 |
+| **4** | Ano 2+ | SaaS global | CORFO $1.1M | Autofinanciado |
+
+## Proximos Hitos
 
 | Fecha | Hito |
 |-------|------|
 | Abril 2026 | Reunion presencial MCCO-PUCV |
+| Abril 2026 | Compra hardware prototipo ($700) |
+| Abril 2026 | Backend SRP Vision integrado (COMPLETADO) |
 | Mayo 2026 | Definicion alcance tecnico + seleccion lineas de investigacion |
 | Mayo-Junio 2026 | Firma convenio I+D + NDA |
 | Junio-Julio 2026 | Postulacion CORFO / FONDEF |

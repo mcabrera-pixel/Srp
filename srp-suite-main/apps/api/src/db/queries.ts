@@ -13,6 +13,11 @@ import {
   FeedbackEntry,
   FeedbackType,
   CommunicationStyle,
+  VisionSession,
+  VisionFrame,
+  VisionInstruction,
+  VisionRiskLevel,
+  VisionInstructionSource,
 } from '../types.js';
 
 // ============================================================================
@@ -348,4 +353,82 @@ export async function listAllFeedback(db: Database, limit = 100): Promise<Feedba
   return db.prepare(
     'SELECT * FROM feedback_entries ORDER BY created_at DESC LIMIT ?'
   ).all(limit) as unknown as FeedbackEntry[];
+}
+
+// ============================================================================
+// SRP VISION — Sesiones, frames e instrucciones
+// ============================================================================
+
+export async function createVisionSession(
+  session: Omit<VisionSession, 'ended_at' | 'summary' | 'findings'>,
+  db: Database
+): Promise<VisionSession> {
+  db.prepare(`
+    INSERT INTO vision_sessions (id, technician_phone, equipment_tag, sop_id, status, started_at, created_at)
+    VALUES (?, ?, ?, ?, ?, ?, ?)
+  `).run(session.id, session.technician_phone, session.equipment_tag,
+         session.sop_id ?? null, session.status, session.started_at, session.created_at);
+  return { ...session, ended_at: null, summary: null, findings: null };
+}
+
+export async function getVisionSession(id: string, db: Database): Promise<VisionSession | null> {
+  return (db.prepare('SELECT * FROM vision_sessions WHERE id = ?').get(id) as unknown as VisionSession) ?? null;
+}
+
+export async function updateVisionSession(
+  id: string,
+  updates: Partial<Pick<VisionSession, 'status' | 'ended_at' | 'summary' | 'findings'>>,
+  db: Database
+): Promise<void> {
+  const fields: string[] = [];
+  const values: unknown[] = [];
+  for (const [key, value] of Object.entries(updates)) {
+    fields.push(`${key} = ?`);
+    values.push(value);
+  }
+  if (fields.length === 0) return;
+  values.push(id);
+  (db.prepare(`UPDATE vision_sessions SET ${fields.join(', ')} WHERE id = ?`) as any).run(...values);
+}
+
+export async function listActiveVisionSessions(db: Database): Promise<VisionSession[]> {
+  return db.prepare(
+    "SELECT * FROM vision_sessions WHERE status = 'active' ORDER BY started_at DESC"
+  ).all() as unknown as VisionSession[];
+}
+
+export async function saveVisionFrame(frame: VisionFrame, db: Database): Promise<void> {
+  db.prepare(`
+    INSERT INTO vision_frames (id, session_id, frame_number, image_path, analysis, risk_level, captured_at)
+    VALUES (?, ?, ?, ?, ?, ?, ?)
+  `).run(frame.id, frame.session_id, frame.frame_number, frame.image_path,
+         frame.analysis ?? null, frame.risk_level ?? null, frame.captured_at);
+}
+
+export async function getSessionFrames(
+  sessionId: string,
+  db: Database,
+  limit = 50
+): Promise<VisionFrame[]> {
+  return db.prepare(
+    'SELECT * FROM vision_frames WHERE session_id = ? ORDER BY frame_number DESC LIMIT ?'
+  ).all(sessionId, limit) as unknown as VisionFrame[];
+}
+
+export async function saveVisionInstruction(instruction: VisionInstruction, db: Database): Promise<void> {
+  db.prepare(`
+    INSERT INTO vision_instructions (id, session_id, source, content, audio_path, created_at)
+    VALUES (?, ?, ?, ?, ?, ?)
+  `).run(instruction.id, instruction.session_id, instruction.source,
+         instruction.content, instruction.audio_path ?? null, instruction.created_at);
+}
+
+export async function getSessionInstructions(
+  sessionId: string,
+  db: Database,
+  limit = 50
+): Promise<VisionInstruction[]> {
+  return db.prepare(
+    'SELECT * FROM vision_instructions WHERE session_id = ? ORDER BY created_at DESC LIMIT ?'
+  ).all(sessionId, limit) as unknown as VisionInstruction[];
 }

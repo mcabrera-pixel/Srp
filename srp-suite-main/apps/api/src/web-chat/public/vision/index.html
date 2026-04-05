@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>SRP Vision — Captura de Campo</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0a0a0a; color: #fff; height: 100vh; overflow: hidden; }
+
+    /* Header */
+    .header { display: flex; align-items: center; justify-content: space-between; padding: 8px 16px; background: #111; border-bottom: 1px solid #333; }
+    .header h1 { font-size: 16px; font-weight: 600; }
+    .status { display: flex; align-items: center; gap: 6px; font-size: 13px; }
+    .status-dot { width: 8px; height: 8px; border-radius: 50%; background: #555; }
+    .status-dot.active { background: #22c55e; animation: pulse 2s infinite; }
+    .status-dot.error { background: #ef4444; }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+
+    /* Video area */
+    .video-container { position: relative; width: 100%; height: calc(100vh - 200px); background: #000; }
+    video { width: 100%; height: 100%; object-fit: cover; }
+    canvas { display: none; }
+
+    /* Overlay de instrucción */
+    .instruction-overlay { position: absolute; bottom: 0; left: 0; right: 0; padding: 16px; background: linear-gradient(transparent, rgba(0,0,0,0.9)); }
+    .instruction-text { font-size: 18px; font-weight: 600; line-height: 1.4; text-shadow: 0 1px 3px rgba(0,0,0,0.8); }
+    .instruction-text.risk-high { color: #fbbf24; }
+    .instruction-text.risk-critical { color: #ef4444; font-size: 22px; }
+
+    /* Componentes detectados */
+    .components { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
+    .component-tag { background: rgba(59,130,246,0.3); border: 1px solid #3b82f6; border-radius: 4px; padding: 2px 8px; font-size: 11px; }
+
+    /* Controles */
+    .controls { display: flex; align-items: center; justify-content: space-around; padding: 16px; background: #111; border-top: 1px solid #333; }
+    .btn { border: none; border-radius: 50%; width: 56px; height: 56px; display: flex; align-items: center; justify-content: center; font-size: 20px; cursor: pointer; transition: all 0.2s; }
+    .btn-start { background: #22c55e; color: #fff; }
+    .btn-start.recording { background: #ef4444; animation: pulse 1s infinite; }
+    .btn-ask { background: #3b82f6; color: #fff; }
+    .btn-end { background: #6b7280; color: #fff; }
+    .btn:active { transform: scale(0.9); }
+
+    /* Setup form */
+    .setup { display: flex; flex-direction: column; gap: 12px; padding: 24px; max-width: 400px; margin: 40px auto; }
+    .setup h2 { font-size: 20px; text-align: center; margin-bottom: 8px; }
+    .setup input, .setup select { background: #222; border: 1px solid #444; color: #fff; padding: 12px; border-radius: 8px; font-size: 15px; }
+    .setup button { background: #22c55e; color: #fff; border: none; padding: 14px; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer; }
+    .setup button:hover { background: #16a34a; }
+
+    /* Info bar */
+    .info-bar { display: flex; justify-content: space-between; padding: 4px 16px; background: #1a1a1a; font-size: 11px; color: #888; }
+
+    .hidden { display: none !important; }
+  </style>
+</head>
+<body>
+
+  <!-- Setup Screen -->
+  <div id="setupScreen" class="setup">
+    <h2>SRP Vision</h2>
+    <p style="text-align:center; color:#888; font-size:13px;">Asistencia IA en tiempo real para mantenimiento</p>
+    <input type="text" id="techPhone" placeholder="Telefono tecnico (ej: +56912345678)" value="+56900000000">
+    <input type="text" id="equipTag" placeholder="Equipo (ej: CAEX-930E-014)">
+    <select id="equipSelect">
+      <option value="">-- Seleccionar equipo --</option>
+      <option value="CAEX-930E-001">CAEX Komatsu 930E #001</option>
+      <option value="CAEX-930E-002">CAEX Komatsu 930E #002</option>
+      <option value="CAEX-980E-001">CAEX Komatsu 980E #001</option>
+      <option value="PALA-4100XPC-001">Pala P&H 4100XPC #001</option>
+      <option value="PALA-4100XPC-002">Pala P&H 4100XPC #002</option>
+      <option value="OTRO">Otro (escribir arriba)</option>
+    </select>
+    <button onclick="initSession()">Iniciar Sesion</button>
+  </div>
+
+  <!-- Capture Screen -->
+  <div id="captureScreen" class="hidden">
+    <div class="header">
+      <h1>SRP Vision</h1>
+      <div class="status">
+        <div class="status-dot" id="statusDot"></div>
+        <span id="statusText">Conectando...</span>
+      </div>
+    </div>
+
+    <div class="info-bar">
+      <span id="equipInfo">-</span>
+      <span id="frameCount">Frames: 0</span>
+      <span id="latency">Latencia: --</span>
+    </div>
+
+    <div class="video-container">
+      <video id="video" autoplay playsinline muted></video>
+      <canvas id="canvas"></canvas>
+
+      <div class="instruction-overlay">
+        <div class="instruction-text" id="instructionText">Esperando primer frame...</div>
+        <div class="components" id="components"></div>
+      </div>
+    </div>
+
+    <div class="controls">
+      <button class="btn btn-end" onclick="endSession()" title="Terminar">X</button>
+      <button class="btn btn-start" id="btnCapture" onclick="toggleCapture()" title="Iniciar/Detener captura">||</button>
+      <button class="btn btn-ask" onclick="askQuestion()" title="Preguntar">?</button>
+    </div>
+  </div>
+
+  <!-- Audio player (invisible) -->
+  <audio id="audioPlayer" preload="none"></audio>
+
+  <script>
+    const WS_URL = `ws://${location.host}/ws/vision`;
+    let ws = null;
+    let videoStream = null;
+    let capturing = false;
+    let captureInterval = null;
+    let frameCount = 0;
+    let sessionId = null;
+
+    // Setup: select -> input sync
+    document.getElementById('equipSelect').addEventListener('change', (e) => {
+      if (e.target.value && e.target.value !== 'OTRO') {
+        document.getElementById('equipTag').value = e.target.value;
+      }
+    });
+
+    async function initSession() {
+      const phone = document.getElementById('techPhone').value.trim();
+      const equip = document.getElementById('equipTag').value.trim() || document.getElementById('equipSelect').value;
+      if (!equip) { alert('Selecciona un equipo'); return; }
+
+      // Show capture screen
+      document.getElementById('setupScreen').classList.add('hidden');
+      document.getElementById('captureScreen').classList.remove('hidden');
+      document.getElementById('equipInfo').textContent = equip;
+
+      // Start camera
+      try {
+        videoStream = await navigator.mediaDevices.getUserMedia({
+          video: { facingMode: 'environment', width: { ideal: 1280 }, height: { ideal: 720 } },
+          audio: false,
+        });
+        document.getElementById('video').srcObject = videoStream;
+      } catch (e) {
+        alert('No se pudo acceder a la camara: ' + e.message);
+        return;
+      }
+
+      // Connect WebSocket
+      connectWS(phone, equip);
+    }
+
+    function connectWS(phone, equip) {
+      ws = new WebSocket(WS_URL);
+
+      ws.onopen = () => {
+        setStatus('active', 'Conectado');
+        ws.send(JSON.stringify({
+          type: 'session:start',
+          technicianPhone: phone,
+          equipmentTag: equip,
+        }));
+      };
+
+      ws.onmessage = (event) => {
+        const msg = JSON.parse(event.data);
+
+        switch (msg.type) {
+          case 'session:started':
+            sessionId = msg.session.id;
+            setStatus('active', 'Sesion activa');
+            break;
+
+          case 'vision:result':
+            handleAnalysis(msg.analysis, msg.audioUrl);
+            break;
+
+          case 'senior:instruction':
+            showInstruction(msg.content, 'none');
+            if (msg.audioUrl) playAudio(msg.audioUrl);
+            break;
+
+          case 'error':
+            console.error('Server error:', msg.message);
+            break;
+        }
+      };
+
+      ws.onclose = () => {
+        setStatus('error', 'Desconectado');
+        // Reconnect after 3s
+        setTimeout(() => { if (sessionId) connectWS(phone, equip); }, 3000);
+      };
+    }
+
+    function handleAnalysis(analysis, audioUrl) {
+      const end = Date.now();
+      document.getElementById('latency').textContent = `Latencia: procesando`;
+
+      showInstruction(analysis.instruction, analysis.risk_level);
+
+      // Show detected components
+      const compEl = document.getElementById('components');
+      compEl.innerHTML = '';
+      (analysis.detected_components || []).forEach(c => {
+        const tag = document.createElement('span');
+        tag.className = 'component-tag';
+        tag.textContent = c;
+        compEl.appendChild(tag);
+      });
+
+      // Play audio
+      if (audioUrl) playAudio(audioUrl);
+    }
+
+    function showInstruction(text, riskLevel) {
+      const el = document.getElementById('instructionText');
+      el.textContent = text;
+      el.className = 'instruction-text';
+      if (riskLevel === 'high') el.classList.add('risk-high');
+      if (riskLevel === 'critical') el.classList.add('risk-critical');
+    }
+
+    function playAudio(url) {
+      const player = document.getElementById('audioPlayer');
+      player.src = url;
+      player.play().catch(() => {});
+    }
+
+    function toggleCapture() {
+      if (capturing) {
+        stopCapture();
+      } else {
+        startCapture();
+      }
+    }
+
+    function startCapture() {
+      capturing = true;
+      document.getElementById('btnCapture').textContent = '||';
+      document.getElementById('btnCapture').classList.add('recording');
+
+      // Capture at 1 FPS
+      captureInterval = setInterval(captureFrame, 1000);
+      captureFrame(); // immediate first frame
+    }
+
+    function stopCapture() {
+      capturing = false;
+      document.getElementById('btnCapture').textContent = '>';
+      document.getElementById('btnCapture').classList.remove('recording');
+      if (captureInterval) clearInterval(captureInterval);
+    }
+
+    function captureFrame() {
+      if (!ws || ws.readyState !== WebSocket.OPEN) return;
+
+      const video = document.getElementById('video');
+      const canvas = document.getElementById('canvas');
+      canvas.width = 720;  // Reduced for bandwidth
+      canvas.height = 405;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+      // Send as binary JPEG
+      canvas.toBlob((blob) => {
+        if (blob && ws.readyState === WebSocket.OPEN) {
+          ws.send(blob);
+          frameCount++;
+          document.getElementById('frameCount').textContent = `Frames: ${frameCount}`;
+        }
+      }, 'image/jpeg', 0.7);
+    }
+
+    function askQuestion() {
+      const question = prompt('Escribe tu pregunta:');
+      if (!question || !sessionId) return;
+
+      ws.send(JSON.stringify({
+        type: 'frame',
+        imageBase64: getCurrentFrameBase64(),
+        query: question,
+      }));
+    }
+
+    function getCurrentFrameBase64() {
+      const video = document.getElementById('video');
+      const canvas = document.getElementById('canvas');
+      canvas.width = 720;
+      canvas.height = 405;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+      return canvas.toDataURL('image/jpeg', 0.7).split(',')[1];
+    }
+
+    function endSession() {
+      if (!confirm('Terminar sesion de vision?')) return;
+      stopCapture();
+      if (ws && ws.readyState === WebSocket.OPEN) {
+        ws.send(JSON.stringify({ type: 'session:end' }));
+      }
+      sessionId = null;
+      if (videoStream) videoStream.getTracks().forEach(t => t.stop());
+
+      document.getElementById('captureScreen').classList.add('hidden');
+      document.getElementById('setupScreen').classList.remove('hidden');
+    }
+
+    function setStatus(state, text) {
+      const dot = document.getElementById('statusDot');
+      dot.className = 'status-dot ' + state;
+      document.getElementById('statusText').textContent = text;
+    }
+  </script>
+</body>
+</html>

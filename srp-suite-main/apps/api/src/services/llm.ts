@@ -9,7 +9,7 @@
 //
 // ============================================================================
 
-import { LocalEnv } from '../types.js';
+import { LocalEnv, VisionAnalysis, VisionRiskLevel } from '../types.js';
 import { notifyMiniMaxRequest } from '../vector/embeddings.js';
 
 // ── Tipos ─────────────────────────────────────────────────────────────────────
@@ -329,6 +329,175 @@ export async function callClaude(
   }
 
   // — legacy compat: esta función se llamaba callClaude pero ya es el dispatcher
+}
+
+// ============================================================================
+// SRP VISION — Llamada multimodal (imagen + texto)
+// ============================================================================
+
+const VISION_SYSTEM_PROMPT = `Eres un supervisor experto de mantenimiento minero con 30 años de experiencia en equipos pesados (Komatsu 930E, P&H 4100XPC, Caterpillar).
+
+Tu rol es analizar imágenes en tiempo real del mantenimiento que un técnico está ejecutando y proporcionar:
+1. Instrucción clara del siguiente paso a realizar
+2. Detección de riesgos o anomalías visibles
+3. Identificación de componentes en la imagen
+4. Confirmación de pasos correctamente ejecutados
+
+REGLAS:
+- Responde SIEMPRE en español técnico chileno, conciso y directo
+- Instrucciones cortas (máximo 2 oraciones) — el técnico las escuchará por audio
+- Si detectas un riesgo CRÍTICO, empieza con "⚠️ DETENCIÓN:" seguido de la razón
+- Si todo está correcto, confirma brevemente: "Paso correcto. Continúa con..."
+- Identifica componentes visibles: filtros, mangueras, pernos, sellos, válvulas, etc.
+- Compara lo que ves contra el procedimiento operativo estándar (SOP) proporcionado
+
+RESPONDE SIEMPRE en formato JSON válido:
+{
+  "instruction": "texto de la instrucción para el técnico",
+  "risk_level": "none|low|medium|high|critical",
+  "detected_components": ["componente1", "componente2"],
+  "anomalies": ["anomalía detectada si hay alguna"],
+  "confidence": 0.85,
+  "sop_step_match": "Paso X del SOP que corresponde o null"
+}`;
+
+export interface VisionLLMOptions {
+  /** Base64-encoded JPEG image */
+  imageBase64: string;
+  /** Optional text question from the technician */
+  technicianQuery?: string;
+  /** SOP context from RAG search */
+  sopContext?: string;
+  /** Worker profile context */
+  workerContext?: string;
+  /** Equipment being worked on */
+  equipmentTag?: string;
+  /** Previous findings from this session (last N analysis results) */
+  previousFindings?: string;
+  /** Which model to use — defaults to openai-gpt4o */
+  modelId?: string;
+}
+
+const VISION_CAPABLE_MODELS = ['openai-gpt4o', 'openai-gpt4o-mini', 'openrouter-gemini-flash'];
+
+export async function callVisionLLM(
+  opts: VisionLLMOptions,
+  env: LocalEnv,
+  timeoutMs = 30_000
+): Promise<VisionAnalysis> {
+  const modelId = opts.modelId ?? 'openai-gpt4o';
+  const model = MODEL_CATALOG.find(m => m.id === modelId);
+  if (!model) throw new Error(`Modelo "${modelId}" no encontrado en el catálogo`);
+
+  if (!VISION_CAPABLE_MODELS.includes(modelId)) {
+    console.warn(`[Vision] Modelo "${modelId}" podría no soportar imágenes. Usando de todos modos.`);
+  }
+
+  const endpoint = model.endpoint === '__OLLAMA__'
+    ? `${env.ollamaUrl}/v1/chat/completions`
+    : model.endpoint;
+
+  const apiKey = model.apiKeyField ? (env[model.apiKeyField] as string) : undefined;
+  if (model.apiKeyField && !apiKey) {
+    throw new Error(`Sin API key para "${model.name}". Configura ${model.apiKeyField} en .env`);
+  }
+
+  // Construir system prompt con contexto
+  let systemPrompt = VISION_SYSTEM_PROMPT;
+  if (opts.equipmentTag) systemPrompt += `\n\nEQUIPO: ${opts.equipmentTag}`;
+  if (opts.sopContext) systemPrompt += `\n\nPROCEDIMIENTO OPERATIVO ESTÁNDAR (SOP):\n${opts.sopContext}`;
+  if (opts.workerContext) systemPrompt += `\n\nCONTEXTO DEL TÉCNICO:\n${opts.workerContext}`;
+  if (opts.previousFindings) systemPrompt += `\n\nHALLAZGOS PREVIOS EN ESTA SESIÓN:\n${opts.previousFindings}`;
+
+  // Construir mensaje multimodal
+  const userContent: unknown[] = [
+    {
+      type: 'image_url',
+      image_url: { url: `data:image/jpeg;base64,${opts.imageBase64}`, detail: 'low' },
+    },
+  ];
+
+  if (opts.technicianQuery) {
+    userContent.push({ type: 'text', text: `Pregunta del técnico: ${opts.technicianQuery}` });
+  } else {
+    userContent.push({ type: 'text', text: 'Analiza esta imagen del mantenimiento en curso. ¿Qué ves y cuál es la instrucción para el técnico?' });
+  }
+
+  console.log(`[Vision] ${model.name} — analizando frame...`);
+
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
+
+  try {
+    const headers: Record<string, string> = { 'Content-Type': 'application/json' };
+    if (apiKey) headers['Authorization'] = `Bearer ${apiKey}`;
+
+    const body: Record<string, unknown> = {
+      model: model.modelName,
+      messages: [
+        { role: 'system', content: systemPrompt },
+        { role: 'user', content: userContent },
+      ],
+      temperature: 0.3,
+      max_tokens: 500,
+    };
+
+    const response = await fetch(endpoint, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify(body),
+      signal: controller.signal,
+    });
+
+    clearTimeout(timeoutId);
+
+    if (!response.ok) {
+      const errText = await response.text();
+      console.error(`[Vision] ${model.provider} error: ${response.status}`, errText);
+      throw new Error(`${model.provider} Vision API error (${response.status}): ${errText}`);
+    }
+
+    const data: unknown = await response.json();
+    let content = (data as any)?.choices?.[0]?.message?.content ?? '';
+
+    // Limpiar markdown code blocks si el modelo los añade
+    content = content.replace(/```json\s*/g, '').replace(/```\s*/g, '').trim();
+
+    console.log(`[Vision] Respuesta (${content.length} chars)`);
+
+    // Parsear JSON
+    try {
+      const analysis: VisionAnalysis = JSON.parse(content);
+      // Validar campos mínimos
+      return {
+        instruction: analysis.instruction || 'Sin instrucción disponible',
+        risk_level: (['none', 'low', 'medium', 'high', 'critical'].includes(analysis.risk_level)
+          ? analysis.risk_level : 'none') as VisionRiskLevel,
+        detected_components: Array.isArray(analysis.detected_components) ? analysis.detected_components : [],
+        anomalies: Array.isArray(analysis.anomalies) ? analysis.anomalies : [],
+        confidence: typeof analysis.confidence === 'number' ? analysis.confidence : 0.5,
+        sop_step_match: analysis.sop_step_match ?? null,
+      };
+    } catch {
+      // Si no es JSON válido, construir respuesta desde texto plano
+      console.warn('[Vision] Respuesta no es JSON, interpretando como texto');
+      return {
+        instruction: content.substring(0, 200),
+        risk_level: 'none',
+        detected_components: [],
+        anomalies: [],
+        confidence: 0.3,
+        sop_step_match: null,
+      };
+    }
+
+  } catch (fetchError: unknown) {
+    clearTimeout(timeoutId);
+    if ((fetchError as any)?.name === 'AbortError') {
+      throw new Error(`Timeout de Vision "${model.name}" después de ${Math.round(timeoutMs / 1000)}s`);
+    }
+    throw fetchError;
+  }
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
