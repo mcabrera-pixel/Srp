@@ -255,7 +255,7 @@ app.get('/vision/dashboard', (_req, res) => res.sendFile(join(__dirname, 'web-ch
 
 // ── SRP Vision API ──────────────────────────────────────────────────────────
 
-import { listActiveVisionSessions as listVisionSessions, getVisionSession as getVisionSessionById, getSessionFrames as getVFrames, getSessionInstructions as getVInstructions } from './db/queries.js';
+import { listActiveVisionSessions as listVisionSessions, getVisionSession as getVisionSessionById, getSessionFrames as getVFrames, getSessionInstructions as getVInstructions, saveTrainingEntry, getTrainingExamples, getSessionTraining } from './db/queries.js';
 
 app.get('/api/vision/sessions', async (_req, res) => {
   try {
@@ -271,6 +271,39 @@ app.get('/api/vision/sessions/:id', async (req, res) => {
     const frames = await getVFrames(req.params.id, db);
     const instructions = await getVInstructions(req.params.id, db);
     res.json({ session, frames, instructions });
+  } catch (e: any) { res.status(500).json({ error: e.message }); }
+});
+
+// ── Vision Training / Feedback API ───────────────────────────────────────────
+
+app.post('/api/vision/training', async (req, res) => {
+  try {
+    const { frameId, sessionId, equipmentTag, imagePath, analysisJson, rating, seniorCorrection, seniorPhone } = req.body;
+    if (!frameId || !sessionId || !rating) {
+      res.status(400).json({ error: 'frameId, sessionId y rating son obligatorios' });
+      return;
+    }
+    const entry = {
+      id: crypto.randomUUID(),
+      frame_id: frameId,
+      session_id: sessionId,
+      equipment_tag: equipmentTag || '',
+      image_path: imagePath || '',
+      analysis_json: typeof analysisJson === 'string' ? analysisJson : JSON.stringify(analysisJson),
+      rating,
+      senior_correction: seniorCorrection || null,
+      senior_phone: seniorPhone || null,
+      created_at: new Date().toISOString(),
+    };
+    await saveTrainingEntry(entry, db);
+    res.json({ ok: true, id: entry.id });
+  } catch (e: any) { res.status(500).json({ error: e.message }); }
+});
+
+app.get('/api/vision/training/:equipmentTag', async (req, res) => {
+  try {
+    const examples = await getTrainingExamples(req.params.equipmentTag, db);
+    res.json(examples);
   } catch (e: any) { res.status(500).json({ error: e.message }); }
 });
 

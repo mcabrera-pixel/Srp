@@ -1,0 +1,9 @@
+lightrag-hku>=1.4
+fastapi[standard]
+uvicorn[standard]
+python-dotenv
+python-multipart
+httpx
+pymupdf
+mammoth
+numpy

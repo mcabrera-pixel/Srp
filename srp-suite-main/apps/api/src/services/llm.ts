@@ -80,12 +80,23 @@ export const MODEL_CATALOG: ModelConfig[] = [
   // ──────────────────────────────────────────────────────────────────────────
   {
     id:          'openrouter-gemini-flash',
-    name:        'Gemini 2.0 Flash',
+    name:        'Gemini 2.5 Flash',
     provider:    'OpenRouter',
-    description: 'Google Gemini 2.0 Flash — rápido y económico',
+    description: 'Google Gemini 2.5 Flash — rápido, visión nativa, ideal para SRP Vision',
     apiKeyField: 'openrouterApiKey',
     endpoint:    'https://openrouter.ai/api/v1/chat/completions',
-    modelName:   'google/gemini-2.0-flash-001',
+    modelName:   'google/gemini-2.5-flash-preview-05-20',
+    maxTokens:   4000,
+    temperature: 0.7,
+  },
+  {
+    id:          'openrouter-gemini-pro',
+    name:        'Gemini 2.5 Pro',
+    provider:    'OpenRouter',
+    description: 'Google Gemini 2.5 Pro — máxima capacidad multimodal',
+    apiKeyField: 'openrouterApiKey',
+    endpoint:    'https://openrouter.ai/api/v1/chat/completions',
+    modelName:   'google/gemini-2.5-pro-preview-06-05',
     maxTokens:   4000,
     temperature: 0.7,
   },
@@ -378,14 +389,14 @@ export interface VisionLLMOptions {
   modelId?: string;
 }
 
-const VISION_CAPABLE_MODELS = ['openai-gpt4o', 'openai-gpt4o-mini', 'openrouter-gemini-flash'];
+const VISION_CAPABLE_MODELS = ['openrouter-gemini-flash', 'openrouter-gemini-pro', 'openai-gpt4o', 'openai-gpt4o-mini'];
 
 export async function callVisionLLM(
   opts: VisionLLMOptions,
   env: LocalEnv,
   timeoutMs = 30_000
 ): Promise<VisionAnalysis> {
-  const modelId = opts.modelId ?? 'openai-gpt4o';
+  const modelId = opts.modelId ?? 'openrouter-gemini-flash';
   const model = MODEL_CATALOG.find(m => m.id === modelId);
   if (!model) throw new Error(`Modelo "${modelId}" no encontrado en el catálogo`);
 

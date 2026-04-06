@@ -87,12 +87,15 @@ export function attachWebSocket(server: Server, env?: LocalEnv): void {
             audioUrl: result.audioUrl,
           }));
 
-          // Broadcast a dashboards
+          // Broadcast a dashboards (incluye imagen para visualización y training)
           broadcastVision({
             type: 'vision:frame_analyzed',
             sessionId: clientMeta.sessionId,
             analysis: result.analysis,
             audioUrl: result.audioUrl,
+            imageBase64,
+            frameId: result.frameId,
+            imagePath: result.imagePath,
           });
         } else {
           // Mensaje JSON

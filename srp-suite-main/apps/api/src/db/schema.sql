@@ -186,3 +186,23 @@ CREATE TABLE IF NOT EXISTS vision_instructions (
 );
 
 CREATE INDEX IF NOT EXISTS idx_vision_instructions_session ON vision_instructions(session_id);
+
+-- --------------------------------------------------------
+-- Training data: feedback del supervisor sobre análisis de la IA
+-- Cada registro es un ejemplo "bueno" o "malo" que se usa para few-shot learning
+
+CREATE TABLE IF NOT EXISTS vision_training (
+  id TEXT PRIMARY KEY,
+  frame_id TEXT NOT NULL REFERENCES vision_frames(id),
+  session_id TEXT NOT NULL REFERENCES vision_sessions(id),
+  equipment_tag TEXT NOT NULL,            -- para buscar ejemplos por tipo de equipo
+  image_path TEXT NOT NULL,               -- key de la imagen original
+  analysis_json TEXT NOT NULL,            -- análisis que generó la IA
+  rating TEXT NOT NULL,                   -- 'correct' | 'incorrect' | 'partial'
+  senior_correction TEXT,                 -- instrucción corregida por el senior (si rating != correct)
+  senior_phone TEXT,                      -- quién evaluó
+  created_at TEXT NOT NULL
+);
+
+CREATE INDEX IF NOT EXISTS idx_vision_training_equip ON vision_training(equipment_tag);
+CREATE INDEX IF NOT EXISTS idx_vision_training_rating ON vision_training(rating);

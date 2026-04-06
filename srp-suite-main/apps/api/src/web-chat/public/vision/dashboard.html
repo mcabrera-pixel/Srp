@@ -51,6 +51,19 @@
     .anomalies { padding: 0 14px 8px; }
     .anomaly-tag { background: rgba(239,68,68,0.15); border: 1px solid rgba(239,68,68,0.3); border-radius: 4px; padding: 1px 6px; font-size: 10px; color: #fca5a5; margin-right: 4px; }
 
+    /* Feedback buttons */
+    .feedback-bar { display: flex; gap: 6px; padding: 8px 14px; border-top: 1px solid #333; align-items: center; }
+    .feedback-bar .label { font-size: 10px; color: #666; text-transform: uppercase; letter-spacing: 1px; margin-right: 4px; }
+    .fb-btn { border: 1px solid #444; background: #222; color: #ccc; padding: 4px 12px; border-radius: 6px; cursor: pointer; font-size: 12px; font-weight: 600; transition: all 0.2s; }
+    .fb-btn:hover { background: #333; }
+    .fb-btn.correct { border-color: #22c55e40; }
+    .fb-btn.correct:hover, .fb-btn.correct.active { background: #22c55e20; color: #22c55e; border-color: #22c55e; }
+    .fb-btn.partial { border-color: #f59e0b40; }
+    .fb-btn.partial:hover, .fb-btn.partial.active { background: #f59e0b20; color: #f59e0b; border-color: #f59e0b; }
+    .fb-btn.incorrect { border-color: #ef444440; }
+    .fb-btn.incorrect:hover, .fb-btn.incorrect.active { background: #ef444420; color: #ef4444; border-color: #ef4444; }
+    .fb-count { font-size: 11px; color: #555; margin-left: auto; }
+
     /* Senior input */
     .senior-input { display: flex; gap: 8px; padding: 10px 14px; border-top: 1px solid #333; }
     .senior-input input { flex: 1; background: #222; border: 1px solid #444; color: #fff; padding: 8px 12px; border-radius: 6px; font-size: 13px; }
@@ -117,7 +130,7 @@
             break;
 
           case 'vision:frame_analyzed':
-            updateSession(msg.sessionId, msg.analysis, msg.audioUrl);
+            updateSession(msg.sessionId, msg.analysis, msg.audioUrl, msg.imageBase64, msg.frameId, msg.imagePath);
             break;
 
           case 'vision:instruction':
@@ -160,6 +173,13 @@
         </div>
         <div class="detected" id="det-${session.id}"></div>
         <div class="anomalies" id="anom-${session.id}"></div>
+        <div class="feedback-bar" id="fb-${session.id}">
+          <span class="label">Evaluacion:</span>
+          <button class="fb-btn correct" onclick="rateLast('${session.id}','correct',this)">Correcto</button>
+          <button class="fb-btn partial" onclick="rateLast('${session.id}','partial',this)">Parcial</button>
+          <button class="fb-btn incorrect" onclick="rateLast('${session.id}','incorrect',this)">Incorrecto</button>
+          <span class="fb-count" id="fb-count-${session.id}">0 evaluados</span>
+        </div>
         <div class="senior-input">
           <input type="text" placeholder="Instruccion del senior..." id="input-${session.id}" onkeydown="if(event.key==='Enter')sendSenior('${session.id}')">
           <button onclick="sendSenior('${session.id}')">Enviar</button>
@@ -188,8 +208,20 @@
       }
     }
 
-    function updateSession(sessionId, analysis, audioUrl) {
+    function updateSession(sessionId, analysis, audioUrl, imageBase64, frameId, imagePath) {
       if (!sessions.has(sessionId)) return;
+      const sess = sessions.get(sessionId);
+
+      // Track last frame for feedback
+      sess.lastFrame = { frameId, sessionId, analysis, imageBase64, imagePath };
+
+      // Update frame image
+      if (imageBase64) {
+        const frameArea = document.getElementById(`frame-${sessionId}`);
+        if (frameArea) {
+          frameArea.innerHTML = `<img src="data:image/jpeg;base64,${imageBase64}" alt="Frame">`;
+        }
+      }
 
       // Update instruction
       const instrEl = document.getElementById(`instr-${sessionId}`);
@@ -264,6 +296,57 @@
 
     function updateCount() {
       document.getElementById('sessionCount').textContent = `${sessions.size} sesion${sessions.size !== 1 ? 'es' : ''}`;
+    }
+
+    // ── Feedback / Training ─────────────────────────────────────────────────
+
+    const trainingCounts = new Map(); // sessionId -> count
+
+    async function rateLast(sessionId, rating, btn) {
+      const sess = sessions.get(sessionId);
+      if (!sess?.lastFrame) return;
+
+      const { frameId, analysis, imagePath } = sess.lastFrame;
+      const equipmentTag = sess.data.equipment_tag;
+
+      // Si es incorrecto, pedir corrección
+      let seniorCorrection = null;
+      if (rating === 'incorrect' || rating === 'partial') {
+        seniorCorrection = prompt('Escribe la instruccion correcta:');
+        if (seniorCorrection === null) return; // canceló
+      }
+
+      // Enviar al backend
+      try {
+        const resp = await fetch('/api/vision/training', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            frameId,
+            sessionId,
+            equipmentTag,
+            imagePath: imagePath || '',
+            analysisJson: analysis,
+            rating,
+            seniorCorrection,
+          }),
+        });
+        if (!resp.ok) throw new Error(await resp.text());
+
+        // Visual feedback
+        const bar = document.getElementById(`fb-${sessionId}`);
+        bar.querySelectorAll('.fb-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        // Update count
+        const count = (trainingCounts.get(sessionId) || 0) + 1;
+        trainingCounts.set(sessionId, count);
+        document.getElementById(`fb-count-${sessionId}`).textContent = `${count} evaluados`;
+
+        addLog(sessionId, 'senior', `Evaluacion: ${rating}${seniorCorrection ? ' — ' + seniorCorrection : ''}`, 'none');
+      } catch (e) {
+        console.error('Error guardando feedback:', e);
+      }
     }
 
     function esc(s) { const d = document.createElement('div'); d.textContent = s; return d.innerHTML; }

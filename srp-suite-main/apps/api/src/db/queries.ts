@@ -432,3 +432,63 @@ export async function getSessionInstructions(
     'SELECT * FROM vision_instructions WHERE session_id = ? ORDER BY created_at DESC LIMIT ?'
   ).all(sessionId, limit) as unknown as VisionInstruction[];
 }
+
+// ============================================================================
+// VISION TRAINING — Feedback del supervisor para few-shot learning
+// ============================================================================
+
+export interface VisionTrainingEntry {
+  id: string;
+  frame_id: string;
+  session_id: string;
+  equipment_tag: string;
+  image_path: string;
+  analysis_json: string;
+  rating: 'correct' | 'incorrect' | 'partial';
+  senior_correction: string | null;
+  senior_phone: string | null;
+  created_at: string;
+}
+
+export async function saveTrainingEntry(
+  entry: VisionTrainingEntry,
+  db: Database,
+): Promise<void> {
+  db.prepare(
+    `INSERT INTO vision_training (id, frame_id, session_id, equipment_tag, image_path, analysis_json, rating, senior_correction, senior_phone, created_at)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
+  ).run(
+    entry.id, entry.frame_id, entry.session_id, entry.equipment_tag,
+    entry.image_path, entry.analysis_json, entry.rating,
+    entry.senior_correction, entry.senior_phone, entry.created_at,
+  );
+}
+
+/** Obtener ejemplos correctos para few-shot learning, filtrados por equipo */
+export async function getTrainingExamples(
+  equipmentTag: string,
+  db: Database,
+  limit = 5,
+): Promise<VisionTrainingEntry[]> {
+  // Priorizar: ejemplos del mismo equipo, luego mismo tipo de equipo
+  const equipPrefix = equipmentTag.split('-').slice(0, 2).join('-'); // "CAEX-930E"
+  return db.prepare(
+    `SELECT * FROM vision_training
+     WHERE rating = 'correct'
+       AND (equipment_tag = ? OR equipment_tag LIKE ?)
+     ORDER BY
+       CASE WHEN equipment_tag = ? THEN 0 ELSE 1 END,
+       created_at DESC
+     LIMIT ?`
+  ).all(equipmentTag, `${equipPrefix}%`, equipmentTag, limit) as unknown as VisionTrainingEntry[];
+}
+
+/** Obtener todos los training entries de una sesión */
+export async function getSessionTraining(
+  sessionId: string,
+  db: Database,
+): Promise<VisionTrainingEntry[]> {
+  return db.prepare(
+    'SELECT * FROM vision_training WHERE session_id = ? ORDER BY created_at DESC'
+  ).all(sessionId) as unknown as VisionTrainingEntry[];
+}
